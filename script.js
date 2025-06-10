@@ -8,6 +8,14 @@ class QuizApp {
         this.selectedBanks = new Set();
         this.quizInProgress = false;
         this.savedQuizState = null;
+        
+        // Configuración de puntuación
+        this.scoringConfig = {
+            enableNegativeScoring: false,
+            incorrectPenalty: 3, // Cada X respuestas incorrectas restan 1 punto
+            allowBlankAnswers: true
+        };
+        
         this.init();
     }
 
@@ -34,6 +42,15 @@ class QuizApp {
         // Event listeners para guardar en banco
         document.getElementById('saveToBank').addEventListener('change', (e) => {
             document.getElementById('bankName').style.display = e.target.checked ? 'block' : 'none';
+        });
+        
+        // Event listeners para configuración de puntuación
+        document.getElementById('enableNegativeScoring').addEventListener('change', (e) => {
+            document.getElementById('negativeScoreConfig').style.display = e.target.checked ? 'block' : 'none';
+        });
+        
+        document.getElementById('enableNegativeScoringMixed').addEventListener('change', (e) => {
+            document.getElementById('negativeScoreConfigMixed').style.display = e.target.checked ? 'block' : 'none';
         });
 
         // Comentado temporalmente - funcionalidad de archivos desactivada
@@ -111,6 +128,13 @@ class QuizApp {
         try {
             // Resetear estado anterior si existe
             this.resetQuizState();
+            
+            // Capturar configuración de puntuación
+            this.scoringConfig = {
+                enableNegativeScoring: document.getElementById('enableNegativeScoring').checked,
+                incorrectPenalty: parseInt(document.getElementById('incorrectPenalty').value),
+                allowBlankAnswers: document.getElementById('allowBlankAnswers').checked
+            };
             
             // Deshabilitar botón y mostrar estado de carga
             loadBtn.disabled = true;
@@ -250,6 +274,11 @@ class QuizApp {
                             <div class="option-text">${opcion}</div>
                         </div>
                     `).join('')}
+                    ${this.scoringConfig.allowBlankAnswers ? `
+                        <div class="option blank" data-index="-1" data-letter="—">
+                            <div class="option-text">💭 Dejar en blanco</div>
+                        </div>
+                    ` : ''}
                 </div>
                 <div id="feedback"></div>
             </div>
@@ -286,21 +315,11 @@ class QuizApp {
             return;
         }
         
-        // Si cambia la respuesta, ajustar el score
-        if (wasAlreadyAnswered) {
-            // Quitar punto si la respuesta anterior era correcta
-            if (this.answers[this.currentQuestionIndex] === correctIndex) {
-                this.score--;
-            }
-        }
-        
-        // Guardar la nueva respuesta
+        // Guardar la nueva respuesta (incluyendo -1 para respuestas en blanco)
         this.answers[this.currentQuestionIndex] = selectedIndex;
         
-        // Añadir punto si la nueva respuesta es correcta
-        if (selectedIndex === correctIndex) {
-            this.score++;
-        }
+        // Recalcular puntuación completa
+        this.calculateScore();
 
         this.showAnswerResult(selectedIndex, true);
         this.updateScore();
@@ -324,26 +343,48 @@ class QuizApp {
         }
 
         // Marcar la opción seleccionada
-        options[selectedIndex].classList.add('selected');
+        if (selectedIndex >= 0) {
+            options[selectedIndex].classList.add('selected');
+        } else {
+            // Respuesta en blanco
+            const blankOption = document.querySelector('.option.blank');
+            if (blankOption) {
+                blankOption.classList.add('selected');
+            }
+        }
 
         // Marcar la respuesta correcta
         options[correctIndex].classList.add('correct');
 
-        // Marcar la respuesta incorrecta si es diferente
-        if (selectedIndex !== correctIndex) {
+        // Marcar la respuesta incorrecta si es diferente y no es blanco
+        if (selectedIndex !== correctIndex && selectedIndex >= 0) {
             options[selectedIndex].classList.add('incorrect');
         }
 
         // Mostrar feedback
-        const isCorrect = selectedIndex === correctIndex;
-        const feedbackHTML = `
-            <div class="feedback ${isCorrect ? 'correct' : 'incorrect'}">
-                ${isCorrect 
-                    ? '¡Correcto! 🎉' 
-                    : `Incorrecto. La respuesta correcta es: <strong>${String.fromCharCode(65 + correctIndex)}) ${question.opciones[correctIndex]}</strong>`
-                }
-            </div>
-        `;
+        let feedbackHTML = '';
+        if (selectedIndex === -1) {
+            // Respuesta en blanco
+            feedbackHTML = `
+                <div class="feedback blank">
+                    💭 Has dejado esta pregunta en blanco. La respuesta correcta es: <strong>${String.fromCharCode(65 + correctIndex)}) ${question.opciones[correctIndex]}</strong>
+                </div>
+            `;
+        } else if (selectedIndex === correctIndex) {
+            // Respuesta correcta
+            feedbackHTML = `
+                <div class="feedback correct">
+                    ¡Correcto! 🎉
+                </div>
+            `;
+        } else {
+            // Respuesta incorrecta
+            feedbackHTML = `
+                <div class="feedback incorrect">
+                    Incorrecto. La respuesta correcta es: <strong>${String.fromCharCode(65 + correctIndex)}) ${question.opciones[correctIndex]}</strong>
+                </div>
+            `;
+        }
 
         feedbackDiv.innerHTML = feedbackHTML;
 
@@ -357,13 +398,16 @@ class QuizApp {
 
         prevBtn.disabled = this.currentQuestionIndex === 0;
         
-        // El botón siguiente se habilita si ya se respondió la pregunta actual
+        // El botón siguiente se habilita si:
+        // 1. Ya se respondió la pregunta actual, O
+        // 2. Se permiten respuestas en blanco
         const hasAnswered = this.answers[this.currentQuestionIndex] !== undefined && this.answers[this.currentQuestionIndex] !== null;
-        nextBtn.disabled = !hasAnswered;
+        const canSkip = this.scoringConfig.allowBlankAnswers;
+        nextBtn.disabled = !(hasAnswered || canSkip);
 
         // Cambiar texto del botón si es la última pregunta
         if (this.currentQuestionIndex === this.questions.length - 1) {
-            nextBtn.textContent = hasAnswered ? 'Ver Resultados' : 'Siguiente';
+            nextBtn.textContent = (hasAnswered || canSkip) ? 'Ver Resultados' : 'Siguiente';
         } else {
             nextBtn.textContent = 'Siguiente';
         }
@@ -395,8 +439,26 @@ class QuizApp {
     }
 
     updateScore() {
+        // Recalcular estadísticas actuales
+        this.calculateScore();
+        
         const answeredQuestions = this.answers.filter(answer => answer !== undefined && answer !== null).length;
-        document.getElementById('score').textContent = `Puntuación: ${this.score}/${answeredQuestions}`;
+        let scoreText = `Puntuación: ${this.score}`;
+        
+        if (this.scoringConfig.enableNegativeScoring && this.scoreStats) {
+            scoreText += ` (${this.scoreStats.correct}✓`;
+            if (this.scoreStats.incorrect > 0) {
+                scoreText += ` ${this.scoreStats.incorrect}✗`;
+            }
+            if (this.scoreStats.blank > 0) {
+                scoreText += ` ${this.scoreStats.blank}—`;
+            }
+            scoreText += ')';
+        } else {
+            scoreText += `/${answeredQuestions}`;
+        }
+        
+        document.getElementById('score').textContent = scoreText;
     }
 
     updateQuestionCounter() {
@@ -413,6 +475,9 @@ class QuizApp {
         navigation.style.display = 'none';
         finalResults.style.display = 'block';
 
+        // Recalcular estadísticas finales
+        this.calculateScore();
+        
         const percentage = Math.round((this.score / this.questions.length) * 100);
         let message = '';
         
@@ -426,10 +491,27 @@ class QuizApp {
             message = 'Necesitas estudiar más 📚';
         }
 
+        let detailedStats = '';
+        if (this.scoreStats) {
+            detailedStats = `
+                <div style="margin: 20px 0; font-size: 1.1em;">
+                    <div style="color: #28a745;">✓ Correctas: ${this.scoreStats.correct}</div>
+                    <div style="color: #dc3545;">✗ Incorrectas: ${this.scoreStats.incorrect}</div>
+                    ${this.scoreStats.blank > 0 ? `<div style="color: #6c757d;">— En blanco: ${this.scoreStats.blank}</div>` : ''}
+                    ${this.scoringConfig.enableNegativeScoring ? 
+                        `<div style="color: #ffc107; font-size: 0.9em; margin-top: 10px;">
+                            💡 Penalización: Cada ${this.scoringConfig.incorrectPenalty} incorrectas restan 1 punto
+                        </div>` : ''
+                    }
+                </div>
+            `;
+        }
+
         document.getElementById('finalScore').innerHTML = `
             <div style="font-size: 2em; margin-bottom: 10px;">${this.score}/${this.questions.length}</div>
             <div style="font-size: 1.5em; margin-bottom: 10px;">${percentage}%</div>
             <div style="color: #667eea;">${message}</div>
+            ${detailedStats}
         `;
 
         // Actualizar barra de progreso al 100%
@@ -609,6 +691,13 @@ class QuizApp {
         try {
             // Resetear estado anterior si existe
             this.resetQuizState();
+            
+            // Capturar configuración de puntuación
+            this.scoringConfig = {
+                enableNegativeScoring: document.getElementById('enableNegativeScoringMixed').checked,
+                incorrectPenalty: parseInt(document.getElementById('incorrectPenaltyMixed').value),
+                allowBlankAnswers: document.getElementById('allowBlankAnswersMixed').checked
+            };
             
             const questionsPerBank = document.getElementById('mixQuestions').value;
             const shuffle = document.getElementById('shuffleQuestions').checked;
@@ -1027,6 +1116,11 @@ class QuizApp {
         this.currentQuestionIndex = this.savedQuizState.currentQuestionIndex;
         this.answers = this.savedQuizState.answers;
         
+        // Restaurar configuración de puntuación si existe
+        if (this.savedQuizState.scoringConfig) {
+            this.scoringConfig = this.savedQuizState.scoringConfig;
+        }
+        
         // Normalizar el array de respuestas (asegurar que tenga la longitud correcta)
         if (this.answers.length !== this.questions.length) {
             const normalizedAnswers = new Array(this.questions.length).fill(undefined);
@@ -1037,12 +1131,7 @@ class QuizApp {
         }
         
         // Recalcular el score basado en las respuestas guardadas
-        this.score = 0;
-        for (let i = 0; i < this.answers.length; i++) {
-            if (this.answers[i] !== undefined && this.answers[i] !== null && this.answers[i] === this.questions[i].respuesta) {
-                this.score++;
-            }
-        }
+        this.calculateScore();
         
         // Mostrar quiz
         this.startQuiz();
@@ -1062,6 +1151,7 @@ class QuizApp {
                 currentQuestionIndex: this.currentQuestionIndex,
                 score: this.score,
                 answers: this.answers,
+                scoringConfig: this.scoringConfig,
                 timestamp: new Date().toISOString()
             };
             localStorage.setItem('savedQuizState', JSON.stringify(state));
@@ -1128,8 +1218,60 @@ class QuizApp {
         this.questions = [];
         this.quizInProgress = false;
         
+        // Resetear configuración de puntuación a valores por defecto
+        this.scoringConfig = {
+            enableNegativeScoring: false,
+            incorrectPenalty: 3,
+            allowBlankAnswers: true
+        };
+        
+        // Limpiar estadísticas
+        this.scoreStats = null;
+        
         // Limpiar estado guardado
         this.removeSavedQuizState();
+    }
+
+    calculateScore() {
+        let correctAnswers = 0;
+        let incorrectAnswers = 0;
+        let blankAnswers = 0;
+        
+        for (let i = 0; i < this.answers.length; i++) {
+            const answer = this.answers[i];
+            const question = this.questions[i];
+            
+            if (answer === undefined || answer === null) {
+                // Pregunta no respondida aún
+                continue;
+            } else if (answer === -1) {
+                // Respuesta en blanco
+                blankAnswers++;
+            } else if (answer === question.respuesta) {
+                // Respuesta correcta
+                correctAnswers++;
+            } else {
+                // Respuesta incorrecta
+                incorrectAnswers++;
+            }
+        }
+        
+        // Calcular puntuación
+        this.score = correctAnswers;
+        
+        // Aplicar penalización por respuestas incorrectas si está habilitada
+        if (this.scoringConfig.enableNegativeScoring && incorrectAnswers > 0) {
+            const penalty = Math.floor(incorrectAnswers / this.scoringConfig.incorrectPenalty);
+            this.score = Math.max(0, this.score - penalty);
+        }
+        
+        // Guardar estadísticas para mostrar
+        this.scoreStats = {
+            correct: correctAnswers,
+            incorrect: incorrectAnswers,
+            blank: blankAnswers,
+            total: this.questions.length
+        };
     }
 }
 

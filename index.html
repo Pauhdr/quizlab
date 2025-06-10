@@ -55,6 +55,35 @@
                     </label>
                     <input type="text" id="bankName" placeholder="Nombre del banco (ej: Historia)" style="display:none;">
                 </div>
+                
+                <!-- Configuración de puntuación -->
+                <div class="scoring-config">
+                    <h4>⚙️ Configuración de Puntuación</h4>
+                    <div class="scoring-options">
+                        <label>
+                            <input type="checkbox" id="enableNegativeScoring"> Respuestas incorrectas restan puntos
+                        </label>
+                        <div id="negativeScoreConfig" style="display: none; margin-left: 20px; margin-top: 10px;">
+                            <label for="incorrectPenalty">Cada </label>
+                            <select id="incorrectPenalty">
+                                <option value="1">1 respuesta incorrecta</option>
+                                <option value="2">2 respuestas incorrectas</option>
+                                <option value="3" selected>3 respuestas incorrectas</option>
+                                <option value="4">4 respuestas incorrectas</option>
+                                <option value="5">5 respuestas incorrectas</option>
+                            </select>
+                            <label> resta 1 punto</label>
+                        </div>
+                        <label>
+                            <input type="checkbox" id="allowBlankAnswers" checked> Permitir dejar preguntas en blanco
+                        </label>
+                        <small class="scoring-help">
+                            • Las preguntas en blanco no suman ni restan puntos<br>
+                            • Solo las respuestas marcadas incorrectamente pueden restar
+                        </small>
+                    </div>
+                </div>
+                
                 <button id="loadQuizBtn" class="load-btn">Cargar Quiz</button>
             </div>
 
@@ -121,6 +150,31 @@
                                 <input type="checkbox" id="shuffleQuestions" checked> Mezclar orden
                             </label>
                         </div>
+                        
+                        <!-- Configuración de puntuación para quiz mixto -->
+                        <div class="scoring-config">
+                            <h5>⚙️ Configuración de Puntuación</h5>
+                            <div class="scoring-options">
+                                <label>
+                                    <input type="checkbox" id="enableNegativeScoringMixed"> Respuestas incorrectas restan puntos
+                                </label>
+                                <div id="negativeScoreConfigMixed" style="display: none; margin-left: 20px; margin-top: 10px;">
+                                    <label for="incorrectPenaltyMixed">Cada </label>
+                                    <select id="incorrectPenaltyMixed">
+                                        <option value="1">1 respuesta incorrecta</option>
+                                        <option value="2">2 respuestas incorrectas</option>
+                                        <option value="3" selected>3 respuestas incorrectas</option>
+                                        <option value="4">4 respuestas incorrectas</option>
+                                        <option value="5">5 respuestas incorrectas</option>
+                                    </select>
+                                    <label> resta 1 punto</label>
+                                </div>
+                                <label>
+                                    <input type="checkbox" id="allowBlankAnswersMixed" checked> Permitir dejar preguntas en blanco
+                                </label>
+                            </div>
+                        </div>
+                        
                         <button id="createMixedQuizBtn" class="load-btn" disabled>Crear Quiz Mixto</button>
                     </div>
                 </div>
