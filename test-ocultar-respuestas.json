@@ -1,0 +1,17 @@
+[
+    {
+        "pregunta": "Test 1: ¿Cuál es la capital de Francia?",
+        "opciones": ["Londres", "París", "Madrid", "Roma"],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "Test 2: ¿Cuál es 2 + 2?",
+        "opciones": ["3", "4", "5", "6"],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "Test 3: ¿Cuál es el color del cielo en un día despejado?",
+        "opciones": ["Verde", "Azul", "Rojo", "Amarillo"],
+        "respuesta": 1
+    }
+]

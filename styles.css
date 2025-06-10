@@ -1002,33 +1002,22 @@ input[type="text"]:hover {
     border-color: #667eea;
 }
 
-/* Estilos para el resumen de respuestas */
-.answers-summary {
-    max-height: 70vh;
-    overflow-y: auto;
+/* Contenedor del resumen de respuestas */
+.answers-summary-container {
+    background: #f8f9fa;
     border: 1px solid #e9ecef;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px 0;
-    background: white;
+    border-radius: 15px;
+    margin: 30px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: summaryFadeIn 0.5s ease-in;
 }
 
-.answers-summary::-webkit-scrollbar {
-    width: 8px;
-}
-
-.answers-summary::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-}
-
-.answers-summary::-webkit-scrollbar-thumb {
-    background: #667eea;
-    border-radius: 4px;
-}
-
-.answers-summary::-webkit-scrollbar-thumb:hover {
-    background: #5a6fd8;
+.answers-summary-container .answers-summary {
+    margin: 0;
+    border: none;
+    border-radius: 15px;
+    background: transparent;
+    box-shadow: none;
 }
 
 /* Animación para el resumen cuando aparece */
@@ -1051,17 +1040,22 @@ input[type="text"]:hover {
 .quiz-title-section {
     display: flex;
     align-items: center;
-    gap: 20px;
+    justify-content: space-between;
+    position: relative;
     order: 0;
     margin-bottom: 5px;
 }
 
 .quiz-title {
     color: white;
-    font-size: 1.5em;
-    font-weight: 400;
+    font-size: 2.5em;
+    font-weight: 300;
     margin: 0;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
 }
 
 /* Responsive para la sección del título del quiz */
@@ -1070,11 +1064,15 @@ input[type="text"]:hover {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+        position: static;
     }
     
     .quiz-title {
-        font-size: 1.3em;
-        text-align: left;
+        font-size: 2em;
+        position: static;
+        transform: none;
+        text-align: center;
+        width: 100%;
     }
     
     .exit-btn {
@@ -1084,6 +1082,47 @@ input[type="text"]:hover {
 
 @media (max-width: 320px) {
     .quiz-title {
-        font-size: 1.1em;
+        font-size: 1.8em;
     }
+}
+
+/* Responsive para el contenedor del resumen */
+@media (max-width: 768px) {
+    .answers-summary-container {
+        margin: 20px 0;
+        border-radius: 10px;
+    }
+    
+    .answers-summary-container .answers-summary {
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .answers-summary-container {
+        margin: 15px 0;
+        border-radius: 8px;
+    }
+    
+    .answers-summary-container .answers-summary {
+        border-radius: 8px;
+    }
+}
+
+/* Estilos para modo ocultar respuestas */
+.option.selectable {
+    border-style: dashed;
+    border-width: 2px;
+}
+
+.option.selectable:hover {
+    border-color: #667eea;
+    background: rgba(102, 126, 234, 0.05);
+    transform: translateX(3px);
+}
+
+.option.selectable.selected {
+    border-color: #667eea;
+    background: rgba(102, 126, 234, 0.1);
+    border-style: solid;
 }

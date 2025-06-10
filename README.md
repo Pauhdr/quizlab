@@ -277,11 +277,17 @@ Puedes usarlo, modificarlo y distribuirlo libremente.
 Cuando activas "Ocultar respuestas hasta el final":
 - ✅ No se muestra si la respuesta es correcta o incorrecta
 - ✅ Solo confirma que se registró la respuesta
+- ✅ **No se muestra la puntuación durante el quiz** - solo progreso de respuestas
+- ✅ **No se revelan estadísticas** en el estado guardado del quiz
 - ✅ Al finalizar, muestra un resumen detallado con:
   - Estado de cada pregunta (✓ Correcta, ✗ Incorrecta, — En blanco)
   - Tu respuesta vs. respuesta correcta
   - Todas las opciones con indicadores visuales
   - Estadísticas completas de desempeño
+
+Durante el quiz se muestra:
+- **Normal**: "Puntuación: 3/5" o "Puntuación: 3 (3✓ 2✗)"
+- **Oculto**: "Progreso: 5/10 respondidas"
 
 ```javascript
 // Configuración de ejemplo
@@ -292,3 +298,35 @@ scoringConfig: {
     hideAnswersUntilEnd: true  // Nueva funcionalidad
 }
 ```
+
+## ✨ Mejoras Implementadas
+
+### Control de Modificación de Respuestas
+
+**Comportamiento Condicional Inteligente:**
+
+#### Modo Normal (Respuestas Inmediatas)
+- ✅ **Feedback inmediato**: Las respuestas correctas/incorrectas se muestran al instante
+- ✅ **Puntuación en tiempo real**: Muestra progreso actual con estadísticas
+- ✅ **Respuestas definitivas**: Una vez seleccionada, no se puede cambiar la respuesta
+- ✅ **Opciones deshabilitadas**: Las opciones se bloquean visualmente después de seleccionar
+- ✅ **Indicadores claros**: Mensajes confirman que la respuesta es definitiva
+
+#### Modo Oculto (Respuestas al Final)
+- ✅ **Sin feedback inmediato**: Solo confirma que se registró la respuesta
+- ✅ **Respuestas modificables**: Se pueden cambiar las respuestas en cualquier momento
+- ✅ **Opciones activas**: Todas las opciones permanecen clicables y con indicadores visuales
+- ✅ **Progreso únicamente**: Muestra "X/Y respondidas" en lugar de puntuación
+- ✅ **Resumen completo**: Al finalizar, muestra análisis detallado de todas las respuestas
+
+### Mejoras Técnicas
+- 🔧 **Funciones auxiliares**: `canChangeAnswers()` y `isQuestionAnswered()` para lógica limpia
+- 🔧 **Comentarios mejorados**: Código auto-documentado con explicaciones claras
+- 🔧 **Consistencia**: Uso uniforme de funciones auxiliares en todo el código
+- 🔧 **Feedback específico**: Mensajes diferentes según el modo de operación
+
+### Experiencia de Usuario
+- 🎯 **Claridad total**: El usuario siempre sabe qué puede y qué no puede hacer
+- 🎯 **Feedback contextual**: Mensajes adaptativos según la configuración
+- 🎯 **Indicadores visuales**: Estilos CSS diferentes para cada modo
+- 🎯 **Navegación intuitiva**: Comportamiento predecible en ambos modos

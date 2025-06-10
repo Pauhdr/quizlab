@@ -300,18 +300,25 @@ class QuizApp {
         }
 
         this.updateNavigation();
-        this.updateProgress();
         this.updateQuestionCounter();
     }
 
     selectOption(selectedIndex) {
         const question = this.questions[this.currentQuestionIndex];
-        const correctIndex = question.respuesta;
         
         // Verificar si la pregunta ya fue respondida previamente
-        const wasAlreadyAnswered = this.answers[this.currentQuestionIndex] !== undefined && this.answers[this.currentQuestionIndex] !== null;
+        const wasAlreadyAnswered = this.isQuestionAnswered();
         
-        // Si ya fue respondida y es la misma respuesta, no hacer nada
+        // LÓGICA CORREGIDA: 
+        // - Si hideAnswersUntilEnd = true: SIEMPRE permitir cambios de respuesta
+        // - Si hideAnswersUntilEnd = false: NO permitir cambios una vez respondida
+        
+        if (!this.canChangeAnswers() && wasAlreadyAnswered) {
+            // Modo normal: no permitir cambios después de responder
+            return; // Bloquear completamente cualquier cambio
+        }
+        
+        // Si es la misma respuesta, solo actualizar la visualización sin recalcular
         if (wasAlreadyAnswered && this.answers[this.currentQuestionIndex] === selectedIndex) {
             this.showAnswerResult(selectedIndex, false);
             return;
@@ -325,6 +332,7 @@ class QuizApp {
 
         this.showAnswerResult(selectedIndex, true);
         this.updateScore();
+        this.updateProgress();
         
         // Guardar estado automáticamente
         this.saveQuizState();
@@ -336,13 +344,10 @@ class QuizApp {
         const options = document.querySelectorAll('.option');
         const feedbackDiv = document.getElementById('feedback');
 
-        // Solo deshabilitar opciones si se está animando (nueva selección)
-        if (animate) {
-            options.forEach(option => {
-                option.classList.add('disabled');
-                option.style.pointerEvents = 'none';
-            });
-        }
+        // Limpiar clases previas de selección
+        options.forEach(option => {
+            option.classList.remove('selected', 'correct', 'incorrect', 'selectable');
+        });
 
         // Marcar la opción seleccionada
         if (selectedIndex >= 0) {
@@ -355,19 +360,26 @@ class QuizApp {
             }
         }
 
-        // Si se deben ocultar las respuestas hasta el final, no mostrar feedback ni marcar correctas/incorrectas
-        if (this.scoringConfig.hideAnswersUntilEnd) {
+        // Si se deben ocultar las respuestas hasta el final
+        if (this.canChangeAnswers()) {
+            // MODO OCULTO: NO deshabilitar opciones - permitir cambios de respuesta
+            options.forEach(option => {
+                option.classList.remove('disabled');
+                option.classList.add('selectable');
+                option.style.pointerEvents = 'auto';
+            });
+            
             let feedbackHTML = '';
             if (selectedIndex === -1) {
                 feedbackHTML = `
                     <div class="feedback blank">
-                        💭 Has dejado esta pregunta en blanco.
+                        💭 Has dejado esta pregunta en blanco. Puedes cambiar tu respuesta antes de finalizar el quiz.
                     </div>
                 `;
             } else {
                 feedbackHTML = `
                     <div class="feedback selected">
-                        ✓ Respuesta registrada. Las respuestas se mostrarán al final del quiz.
+                        ✓ Respuesta registrada. Puedes cambiar tu respuesta en cualquier momento. Las respuestas se mostrarán al final del quiz.
                     </div>
                 `;
             }
@@ -377,7 +389,15 @@ class QuizApp {
             return;
         }
 
-        // Comportamiento normal: mostrar respuestas inmediatamente
+        // MODO NORMAL: mostrar respuestas inmediatamente y deshabilitar opciones
+        if (animate) {
+            options.forEach(option => {
+                option.classList.add('disabled');
+                option.classList.remove('selectable');
+                option.style.pointerEvents = 'none';
+            });
+        }
+
         // Marcar la respuesta correcta
         options[correctIndex].classList.add('correct');
 
@@ -393,13 +413,14 @@ class QuizApp {
             feedbackHTML = `
                 <div class="feedback blank">
                     💭 Has dejado esta pregunta en blanco. La respuesta correcta es: <strong>${String.fromCharCode(65 + correctIndex)}) ${question.opciones[correctIndex]}</strong>
+                    <br><small>Tu decisión ha sido registrada definitivamente.</small>
                 </div>
             `;
         } else if (selectedIndex === correctIndex) {
             // Respuesta correcta
             feedbackHTML = `
                 <div class="feedback correct">
-                    ¡Correcto! 🎉
+                    ¡Correcto! 🎉 Tu respuesta ha sido registrada definitivamente.
                 </div>
             `;
         } else {
@@ -407,6 +428,7 @@ class QuizApp {
             feedbackHTML = `
                 <div class="feedback incorrect">
                     Incorrecto. La respuesta correcta es: <strong>${String.fromCharCode(65 + correctIndex)}) ${question.opciones[correctIndex]}</strong>
+                    <br><small>Tu respuesta ha sido registrada definitivamente.</small>
                 </div>
             `;
         }
@@ -442,6 +464,7 @@ class QuizApp {
         if (this.currentQuestionIndex > 0) {
             this.currentQuestionIndex--;
             this.displayQuestion();
+            this.updateProgress();
             // Guardar estado automáticamente
             this.saveQuizState();
         }
@@ -451,6 +474,7 @@ class QuizApp {
         if (this.currentQuestionIndex < this.questions.length - 1) {
             this.currentQuestionIndex++;
             this.displayQuestion();
+            this.updateProgress();
             // Guardar estado automáticamente
             this.saveQuizState();
         } else {
@@ -459,31 +483,40 @@ class QuizApp {
     }
 
     updateProgress() {
-        const progress = ((this.currentQuestionIndex + 1) / this.questions.length) * 100;
+        const answeredQuestions = this.answers.filter(answer => answer !== undefined && answer !== null).length;
+        const progress = (answeredQuestions / this.questions.length) * 100;
         document.getElementById('progressBar').style.width = `${progress}%`;
     }
 
     updateScore() {
-        // Recalcular estadísticas actuales
-        this.calculateScore();
-        
-        const answeredQuestions = this.answers.filter(answer => answer !== undefined && answer !== null).length;
-        let scoreText = `Puntuación: ${this.score}`;
-        
-        if (this.scoringConfig.enableNegativeScoring && this.scoreStats) {
-            scoreText += ` (${this.scoreStats.correct}✓`;
-            if (this.scoreStats.incorrect > 0) {
-                scoreText += ` ${this.scoreStats.incorrect}✗`;
+        // Si se deben ocultar las respuestas hasta el final, no mostrar puntuación
+        if (!this.canChangeAnswers()) {
+            // MODO NORMAL: Mostrar puntuación actual
+            this.calculateScore();
+            
+            const answeredQuestions = this.answers.filter(answer => answer !== undefined && answer !== null).length;
+            const scoreDisplay = this.score % 1 === 0 ? this.score : this.score.toFixed(2);
+            let scoreText = `Puntuación: ${scoreDisplay}`;
+            
+            if (this.scoringConfig.enableNegativeScoring && this.scoreStats) {
+                scoreText += ` (${this.scoreStats.correct}✓`;
+                if (this.scoreStats.incorrect > 0) {
+                    scoreText += ` ${this.scoreStats.incorrect}✗`;
+                }
+                if (this.scoreStats.blank > 0) {
+                    scoreText += ` ${this.scoreStats.blank}—`;
+                }
+                scoreText += ')';
+            } else {
+                scoreText += `/${answeredQuestions}`;
             }
-            if (this.scoreStats.blank > 0) {
-                scoreText += ` ${this.scoreStats.blank}—`;
-            }
-            scoreText += ')';
+            
+            document.getElementById('score').textContent = scoreText;
         } else {
-            scoreText += `/${answeredQuestions}`;
+            // MODO OCULTO: Solo mostrar progreso de respuestas
+            const answeredQuestions = this.answers.filter(answer => answer !== undefined && answer !== null).length;
+            document.getElementById('score').textContent = `Progreso: ${answeredQuestions}/${this.questions.length} respondidas`;
         }
-        
-        document.getElementById('score').textContent = scoreText;
     }
 
     updateQuestionCounter() {
@@ -533,17 +566,19 @@ class QuizApp {
         }
 
         // Agregar resumen detallado si se ocultaron las respuestas
-        let answersSummary = '';
-        if (this.scoringConfig.hideAnswersUntilEnd) {
-            answersSummary = this.generateAnswersSummary();
+        if (this.canChangeAnswers()) {
+            const answersSummary = this.generateAnswersSummary();
+            document.getElementById('answersSummary').innerHTML = answersSummary;
+            document.getElementById('answersSummaryContainer').style.display = 'block';
+        } else {
+            document.getElementById('answersSummaryContainer').style.display = 'none';
         }
 
         document.getElementById('finalScore').innerHTML = `
-            <div style="font-size: 2em; margin-bottom: 10px;">${this.score}/${this.questions.length}</div>
+            <div style="font-size: 2em; margin-bottom: 10px;">${this.score % 1 === 0 ? this.score : this.score.toFixed(2)}/${this.questions.length}</div>
             <div style="font-size: 1.5em; margin-bottom: 10px;">${percentage}%</div>
             <div style="color: #667eea;">${message}</div>
             ${detailedStats}
-            ${answersSummary}
         `;
 
         // Actualizar barra de progreso al 100%
@@ -1103,12 +1138,16 @@ class QuizApp {
         const inputContainer = document.getElementById('inputContainer');
         const resumeSection = document.createElement('div');
         resumeSection.className = 'resume-section';
+        const progressText = this.savedQuizState.scoringConfig?.hideAnswersUntilEnd 
+            ? `Progreso: ${this.savedQuizState.currentQuestionIndex + 1}/${this.savedQuizState.questions.length}`
+            : `Progreso: ${this.savedQuizState.currentQuestionIndex + 1}/${this.savedQuizState.questions.length} 
+               (${this.savedQuizState.score} correctas)`;
+        
         resumeSection.innerHTML = `
             <div class="resume-card">
                 <h3>🔄 Quiz Guardado</h3>
                 <p>Tienes un quiz en progreso con ${this.savedQuizState.questions.length} preguntas.</p>
-                <p>Progreso: ${this.savedQuizState.currentQuestionIndex + 1}/${this.savedQuizState.questions.length} 
-                   (${this.savedQuizState.score} correctas)</p>
+                <p>${progressText}</p>
                 <div class="resume-actions">
                     <button id="resumeQuizBtn" class="load-btn">Continuar Quiz</button>
                     <button id="discardQuizBtn" class="discard-btn">Descartar</button>
@@ -1125,12 +1164,18 @@ class QuizApp {
     updateResumeOption() {
         const resumeSection = document.querySelector('.resume-section');
         if (resumeSection && this.savedQuizState) {
+            // Usar la configuración guardada para determinar el tipo de progreso a mostrar
+            const useHiddenMode = this.savedQuizState.scoringConfig?.hideAnswersUntilEnd;
+            const progressText = useHiddenMode
+                ? `Progreso: ${this.savedQuizState.currentQuestionIndex + 1}/${this.savedQuizState.questions.length}`
+                : `Progreso: ${this.savedQuizState.currentQuestionIndex + 1}/${this.savedQuizState.questions.length} 
+                   (${this.savedQuizState.score} correctas)`;
+            
             const resumeCard = resumeSection.querySelector('.resume-card');
             resumeCard.innerHTML = `
                 <h3>🔄 Quiz Guardado</h3>
                 <p>Tienes un quiz en progreso con ${this.savedQuizState.questions.length} preguntas.</p>
-                <p>Progreso: ${this.savedQuizState.currentQuestionIndex + 1}/${this.savedQuizState.questions.length} 
-                   (${this.savedQuizState.score} correctas)</p>
+                <p>${progressText}</p>
                 <div class="resume-actions">
                     <button id="resumeQuizBtn" class="load-btn">Continuar Quiz</button>
                     <button id="discardQuizBtn" class="discard-btn">Descartar</button>
@@ -1241,6 +1286,18 @@ class QuizApp {
         document.getElementById('quizHeader').style.display = 'flex';
     }
 
+    // === FUNCIONES AUXILIARES ===
+    
+    canChangeAnswers() {
+        // Si hideAnswersUntilEnd está activado, siempre se pueden cambiar las respuestas
+        // Si está desactivado, las respuestas no se pueden cambiar una vez seleccionadas
+        return this.scoringConfig.hideAnswersUntilEnd;
+    }
+
+    isQuestionAnswered(questionIndex = this.currentQuestionIndex) {
+        return this.answers[questionIndex] !== undefined && this.answers[questionIndex] !== null;
+    }
+
     // === GESTIÓN DE ESTADO COMPLETO DEL QUIZ ===
     
     resetQuizState() {
@@ -1295,7 +1352,7 @@ class QuizApp {
         
         // Aplicar penalización por respuestas incorrectas si está habilitada
         if (this.scoringConfig.enableNegativeScoring && incorrectAnswers > 0) {
-            const penalty = Math.floor(incorrectAnswers / this.scoringConfig.incorrectPenalty);
+            const penalty = incorrectAnswers / this.scoringConfig.incorrectPenalty;
             this.score = Math.max(0, this.score - penalty);
         }
         
@@ -1310,8 +1367,9 @@ class QuizApp {
 
     generateAnswersSummary() {
         let summaryHTML = `
-            <div style="margin-top: 30px; text-align: left; max-width: 800px; margin-left: auto; margin-right: auto;">
-                <h3 style="text-align: center; color: #667eea; margin-bottom: 25px;">📝 Resumen Detallado de Respuestas</h3>
+            <div style="text-align: left;">
+                <h3 style="text-align: center; color: #667eea; margin-bottom: 25px; padding: 20px 20px 0;">📝 Resumen Detallado de Respuestas</h3>
+                <div style="padding: 0 20px 20px;">
         `;
 
         this.questions.forEach((question, index) => {
@@ -1380,7 +1438,7 @@ class QuizApp {
             `;
         });
 
-        summaryHTML += `</div>`;
+        summaryHTML += `</div></div>`;
         return summaryHTML;
     }
 }
