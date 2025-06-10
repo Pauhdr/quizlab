@@ -72,6 +72,18 @@ class QuizApp {
     }
 
     setupEventListeners() {
+        // Remover listeners existentes para evitar duplicados
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        // Clonar los botones para eliminar todos los listeners existentes
+        const newPrevBtn = prevBtn.cloneNode(true);
+        const newNextBtn = nextBtn.cloneNode(true);
+        
+        prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
+        nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+        
+        // Agregar los nuevos listeners
         document.getElementById('prevBtn').addEventListener('click', () => this.previousQuestion());
         document.getElementById('nextBtn').addEventListener('click', () => this.nextQuestion());
     }
