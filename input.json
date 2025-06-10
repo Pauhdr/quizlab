@@ -1,0 +1,202 @@
+[
+    {
+        "pregunta": "Según las fuentes, ¿cuáles son las cinco tendencias identificadas en la Historia de la Informática?",
+        "opciones": [
+        "Ubicación, Interacción, Automatización, Movilidad, Flexibilidad",
+        "Ubicuidad, Interconexión, Inteligencia, Delegación, Orientación humana",
+        "Percepción, Decisión, Acción, Comunicación, Coordinación",
+        "Simbolismo, Reactividad, Hibridación, Racionalidad, Adaptación"
+        ],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "De acuerdo con la primera definición de agente proporcionada, ¿cuál es una característica clave de un agente?",
+        "opciones": [
+        "Es capaz de aprender de su entorno.",
+        "Está basado en un modelo simbólico del mundo.",
+        "Es capaz de actuar independientemente (autónomamente) en representación de su usuario.",
+        "Siempre busca maximizar una función de utilidad."
+        ],
+        "respuesta": 2
+    },
+    {
+        "pregunta": "En el contexto de los agentes inteligentes, ¿qué significa la 'capacidad social' o 'sociabilidad'?",
+        "opciones": [
+        "La habilidad de moverse en una red de comunicación.",
+        "La capacidad de interactuar con otros agentes (y posiblemente humanos) mediante cooperación, coordinación y negociación.",
+        "La capacidad de percibir y responder a cambios en el entorno.",
+        "La habilidad de generar e intentar conseguir objetivos, tomando la iniciativa."
+        ],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "Las fuentes mencionan propiedades fuertes de los agentes que van más allá del concepto débil. ¿Cuál de las siguientes es una propiedad fuerte de un agente?",
+        "opciones": [
+        "Autonomía",
+        "Reactividad",
+        "Benevolencia",
+        "Proactividad"
+        ],
+        "respuesta": 2
+    },
+    {
+        "pregunta": "Según las fuentes, en un entorno dinámico, ¿qué sucede que no está bajo el control del agente?",
+        "opciones": [
+        "Las acciones del agente pueden fallar.",
+        "Se producen cambios que no son provocados por la ejecución de acciones del agente.",
+        "El agente no puede obtener información completa del estado del entorno.",
+        "Cualquier acción del agente tiene un único efecto garantizado."
+        ],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "La descripción de la actitud intencional (atribuir creencias, deseos, etc.) se presenta como una herramienta útil para tratar con sistemas complejos. ¿Qué beneficio principal se le atribuye a esta herramienta?",
+        "opciones": [
+        "Permite construir agentes reactivos simples.",
+        "Proporciona una forma cómoda y familiar de describir, explicar y predecir el comportamiento de los sistemas complejos.",
+        "Facilita la formalización matemática de los agentes.",
+        "Asegura que el agente actúe de forma determinista."
+        ],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "En el modelo de agente basado en objetivos descrito, la acción seleccionada por el agente depende de dos elementos principales. ¿Cuáles son?",
+        "opciones": [
+        "La percepción actual y el estado interno.",
+        "El estado interno y los objetivos que el agente desea alcanzar.",
+        "La función de utilidad y los efectos de sus acciones.",
+        "La historia completa de percepciones y el conjunto de acciones posibles."
+        ],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "Un agente racional, en el contexto de agentes basados en utilidad, emprende aquella acción que maximice el valor esperado de una medida de rendimiento. ¿Qué significa que un agente sea 'racional' en este sentido?",
+        "opciones": [
+        "Que siempre elige la acción que conduce al mejor estado posible.",
+        "Que es omnisciente y conoce todos los resultados futuros.",
+        "Que emprende la acción que maximiza el valor esperado basándose en las evidencias de las percepciones.",
+        "Que nunca comete errores y siempre tiene éxito en sus tareas."
+        ],
+        "respuesta": 2
+    },
+    {
+        "pregunta": "Según las fuentes, las arquitecturas de agentes se pueden clasificar en varios tipos. ¿Cuál de las siguientes NO es uno de los tipos principales de arquitecturas de agente mencionados?",
+        "opciones": [
+        "Agentes de Razonamiento Deductivo (Simbólicos)",
+        "Agentes Emocionales",
+        "Agentes Reactivos",
+        "Agentes Híbridos"
+        ],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "Dentro de las arquitecturas BDI (Beliefs, Desires, Intentions), ¿qué representan las 'Intenciones'?",
+        "opciones": [
+        "Información que tiene el agente sobre el mundo.",
+        "Estado de los asuntos que el agente desearía alcanzar.",
+        "Deseos (o acciones) que el agente se ha comprometido a lograr.",
+        "Funciones que evalúan cuán 'bueno' es un estado."
+        ],
+        "respuesta": 2
+    },
+    {
+        "pregunta": "El problema del 'efecto colateral' o 'problema del todo en el mismo paquete' en las intenciones se refiere a que:",
+        "opciones": [
+        "Los agentes no pueden planificar todos los efectos colaterales de sus intenciones.",
+        "Las intenciones deben ser cerradas bajo la implicación lógica.",
+        "Un agente siempre debe tener la intención de lograr todos los efectos secundarios de sus intenciones.",
+        "Es imposible que un agente tenga intenciones mutuamente exclusivas."
+        ],
+        "respuesta": 0
+    },
+    {
+        "pregunta": "En el lenguaje Jason, ¿qué significan las anotaciones en las creencias, como `busy(jhon)[expires(autum)]`?",
+        "opciones": [
+        "Indican el nivel de certeza de la creencia.",
+        "Son detalles asociados a una creencia que aportan 'elegancia' y facilitan su manejo.",
+        "Determinan si un plan es aplicable en ese contexto.",
+        "Representan el origen de la creencia (percepción, comunicación, nota mental)."
+        ],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "Según las fuentes, ¿cuál es uno de los modelos de comunicación entre agentes?",
+        "opciones": [
+        "Lógica deóntica.",
+        "Modelado Mútuo.",
+        "Pizarra compartida (Blackboard).",
+        "Estructuras Organizacionales."
+        ],
+        "respuesta": 2
+    },
+    {
+        "pregunta": "En el contexto de la comunicación de agentes, ¿qué representa una 'performativa' en lenguajes como KQML o FIPA ACL?",
+        "opciones": [
+        "El contenido proposicional del mensaje.",
+        "La sintaxis del lenguaje de comunicación.",
+        "Un acto de habla, que indica la intención del agente al enviar el mensaje (ej. afirmar, preguntar, solicitar).",
+        "El medio físico por el que se transmite el mensaje."
+        ],
+        "respuesta": 2
+    },
+    {
+        "pregunta": "Según el modelo conceptual de plataforma FIPA, ¿qué servicio ofrece el 'Directory Facilitator' (DF)?",
+        "opciones": [
+        "Creación, destrucción y control del cambio de estado de los agentes.",
+        "Envío de mensajes entre agentes de la misma o distinta plataforma.",
+        "Servicio de Páginas Blancas (Nombre – Dirección).",
+        "Servicio de Páginas Amarillas, donde los agentes se registran indicando los servicios que ofrecen."
+        ],
+        "respuesta": 3
+    },
+    {
+        "pregunta": "En el contexto de la negociación, ¿qué distingue a una solución 'Integrativa' de una 'Distributiva'?",
+        "opciones": [
+        "La integrativa involucra a más de dos participantes, mientras que la distributiva es bilateral.",
+        "La integrativa se basa en el precio, mientras que la distributiva es multiatributo.",
+        "La integrativa busca una situación donde todas las partes salen ganando (win-win), mientras que la distributiva supone que la ganancia de una parte implica la pérdida de otra.",
+        "La integrativa se resuelve mediante subastas, mientras que la distributiva utiliza el protocolo de regateo."
+        ],
+        "respuesta": 2
+    },
+    {
+        "pregunta": "La Paradoja Condorcet, en teoría de Social Choice, describe una situación en la que:",
+        "opciones": [
+        "Un candidato gana todas las comparaciones por pares.",
+        "No hay un ganador que venza a todos los demás en comparaciones por pares, ya que se forma un ciclo de mayorías.",
+        "El ganador depende completamente del orden en que se comparan los candidatos.",
+        "El ganador es el candidato con más votos en primera preferencia, a pesar de tener una amplia mayoría en contra."
+        ],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "Según el Teorema de Arrow, si hay más de dos candidatos, ¿qué se concluye sobre un procedimiento de votación que satisface el criterio de Pareto (P(W)) y la Independencia de Alternativas Irrelevantes (IIA(W))?",
+        "opciones": [
+        "Siempre existe un ganador Condorcet.",
+        "Es susceptible a la manipulación estratégica.",
+        "La única forma de satisfacer ambas propiedades es que sea una dictadura (las preferencias de un solo votante determinan el resultado).",
+        "Garantiza que el ganador sea el candidato más preferido por la mayoría."
+        ],
+        "respuesta": 2
+    },
+    {
+        "pregunta": "En una subasta de sobre cerrado de segundo precio (Vickrey auction), ¿cuál es la estrategia dominante para los compradores?",
+        "opciones": [
+        "Pujar un valor significativamente menor a su precio límite para maximizar el beneficio.",
+        "Pujar un valor muy superior a su precio límite para intimidar a otros compradores.",
+        "Pujar exactamente el precio límite (valoración) que tienen para el bien.",
+        "Esperar a que otros compradores pujen y luego intentar superarlos por un pequeño margen."
+        ],
+        "respuesta": 2
+    },
+    {
+        "pregunta": "Dentro de las técnicas de coordinación en sistemas multiagente, ¿qué implican las 'Normas y Leyes Sociales'?",
+        "opciones": [
+        "El intercambio de información de control entre agentes.",
+        "La definición de patrones de comportamiento esperados y restricciones sobre las acciones de los agentes.",
+        "La creación de un plan centralizado que especifica las acciones de todos los agentes.",
+        "La distribución dinámica de tareas en tiempo de ejecución."
+        ],
+        "respuesta": 1
+    }
+]

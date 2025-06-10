@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interactivo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Quiz Interactivo</h1>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="score" id="score">Puntuación: 0/0</div>
+        </div>
+        
+        <div class="input-container" id="inputContainer">
+            <h2>Introduce las preguntas del quiz</h2>
+            <p>Pega aquí tu archivo JSON con las preguntas:</p>
+            <textarea id="jsonInput" placeholder='Pega aquí tu JSON, por ejemplo:
+[
+    {
+        "pregunta": "¿Cuál es la capital de España?",
+        "opciones": ["Madrid", "Barcelona", "Valencia", "Sevilla"],
+        "respuesta": 0
+    }
+]'></textarea>
+            <button id="loadQuizBtn" class="load-btn">Cargar Quiz</button>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+        
+        <div class="quiz-container" id="quizContainer" style="display: none;">
+            <div class="loading" id="loading">Cargando preguntas...</div>
+        </div>
+        
+        <div class="navigation">
+            <button id="prevBtn" class="nav-btn" disabled>Anterior</button>
+            <span class="question-counter" id="questionCounter">0 / 0</span>
+            <button id="nextBtn" class="nav-btn" disabled>Siguiente</button>
+        </div>
+        
+        <div class="final-results" id="finalResults" style="display: none;">
+            <h2>¡Quiz Completado!</h2>
+            <div class="final-score" id="finalScore"></div>
+            <button id="restartBtn" class="restart-btn">Reiniciar Quiz</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
