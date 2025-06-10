@@ -3,23 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Interactivo</title>
+    <title>Quiz Lab</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Quiz Interactivo</h1>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
+            <div class="header-content" id="headerContent">
+                <h1 id="headerTitle">Crear Quiz</h1>
+                <div class="quiz-header" id="quizHeader" style="display: none;">
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    <div class="score" id="score">Puntuación: 0/0</div>
+                    <button id="exitQuizBtn" class="exit-btn">✕ Salir</button>
+                </div>
             </div>
-            <div class="score" id="score">Puntuación: 0/0</div>
         </div>
         
         <div class="input-container" id="inputContainer">
-            <h2>Introduce las preguntas del quiz</h2>
-            <p>Pega aquí tu archivo JSON con las preguntas:</p>
-            <textarea id="jsonInput" placeholder='Pega aquí tu JSON, por ejemplo:
+            <p>Elige una opción para crear tu quiz:</p>
+            
+            <div class="input-options">
+                <div class="option-card active" id="jsonOption">
+                    <h3>📝 Pegar JSON</h3>
+                    <p>Introduce directamente las preguntas en formato JSON</p>
+                </div>
+                <!-- <div class="option-card" id="fileOption">
+                    <h3>📄 Subir Archivos</h3>
+                    <p>Sube documentos para generar preguntas automáticamente</p>
+                </div> -->
+                <div class="option-card" id="bankOption">
+                    <h3>🏦 Banco de Preguntas</h3>
+                    <p>Gestiona y mezcla preguntas guardadas</p>
+                </div>
+            </div>
+
+            <div class="input-method" id="jsonMethod">
+                <h3>Pega tu JSON con las preguntas:</h3>
+                <textarea id="jsonInput" placeholder='Pega aquí tu JSON, por ejemplo:
 [
     {
         "pregunta": "¿Cuál es la capital de España?",
@@ -27,27 +49,107 @@
         "respuesta": 0
     }
 ]'></textarea>
-            <button id="loadQuizBtn" class="load-btn">Cargar Quiz</button>
+                <div class="save-options">
+                    <label>
+                        <input type="checkbox" id="saveToBank"> Guardar en banco de preguntas
+                    </label>
+                    <input type="text" id="bankName" placeholder="Nombre del banco (ej: Historia)" style="display:none;">
+                </div>
+                <button id="loadQuizBtn" class="load-btn">Cargar Quiz</button>
+            </div>
+
+            <div class="input-method" id="fileMethod" style="display: none;">
+                <h3>Sube documentos para generar preguntas:</h3>
+                <div class="file-upload-area" id="fileUploadArea">
+                    <div class="upload-icon">📁</div>
+                    <p>Arrastra archivos aquí o haz clic para seleccionar</p>
+                    <p class="file-types">Formatos soportados: PDF, TXT, DOCX, MD</p>
+                    <input type="file" id="fileInput" multiple accept=".pdf,.txt,.docx,.md" style="display: none;">
+                </div>
+                <div class="uploaded-files" id="uploadedFiles"></div>
+                <div class="generation-options">
+                    <label for="numQuestions">Número de preguntas:</label>
+                    <select id="numQuestions">
+                        <option value="5">5 preguntas</option>
+                        <option value="10" selected>10 preguntas</option>
+                        <option value="15">15 preguntas</option>
+                        <option value="20">20 preguntas</option>
+                    </select>
+                    <label for="difficulty">Dificultad:</label>
+                    <select id="difficulty">
+                        <option value="facil">Fácil</option>
+                        <option value="medio" selected>Medio</option>
+                        <option value="dificil">Difícil</option>
+                    </select>
+                    <label>
+                        <input type="checkbox" id="saveGeneratedToBank"> Guardar preguntas generadas
+                    </label>
+                    <input type="text" id="generatedBankName" placeholder="Nombre del banco" style="display:none;">
+                </div>
+                <button id="generateQuizBtn" class="load-btn" disabled>Generar Quiz con IA</button>
+            </div>
+
+            <div class="input-method" id="bankMethod" style="display: none;">
+                <h3>Gestionar Banco de Preguntas</h3>
+                
+                <div class="bank-section">
+                    <h4>📚 Bancos Guardados</h4>
+                    <div class="banks-list" id="banksList">
+                        <p class="no-banks">No hay bancos de preguntas guardados</p>
+                    </div>
+                </div>
+
+                <div class="bank-section">
+                    <h4>🎯 Crear Quiz Mixto</h4>
+                    <div class="mix-options">
+                        <div class="selected-banks" id="selectedBanks">
+                            <p>Selecciona bancos para mezclar preguntas</p>
+                        </div>
+                        <div class="mix-settings">
+                            <label for="mixQuestions">Total de preguntas:</label>
+                            <select id="mixQuestions">
+                                <option value="5">5 preguntas</option>
+                                <option value="10" selected>10 preguntas</option>
+                                <option value="15">15 preguntas</option>
+                                <option value="20">20 preguntas</option>
+                                <option value="all">Todas</option>
+                            </select>
+                            <small class="mix-help-text">
+                                Las preguntas se distribuirán proporcionalmente entre los bancos seleccionados de manera aleatoria
+                            </small>
+                            <label>
+                                <input type="checkbox" id="shuffleQuestions" checked> Mezclar orden
+                            </label>
+                        </div>
+                        <button id="createMixedQuizBtn" class="load-btn" disabled>Crear Quiz Mixto</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="error-message" id="errorMessage"></div>
+            <div class="loading-generation" id="loadingGeneration" style="display: none;">
+                <div class="spinner"></div>
+                <p>Generando preguntas con IA... Esto puede tomar unos momentos.</p>
+            </div>
         </div>
-        
+
         <div class="quiz-container" id="quizContainer" style="display: none;">
-            <div class="loading" id="loading">Cargando preguntas...</div>
+            <!-- Las preguntas se mostrarán aquí dinámicamente -->
         </div>
-        
-        <div class="navigation">
+
+        <div class="navigation" style="display: none;">
             <button id="prevBtn" class="nav-btn" disabled>Anterior</button>
-            <span class="question-counter" id="questionCounter">0 / 0</span>
+            <div class="question-counter" id="questionCounter">1 / 10</div>
             <button id="nextBtn" class="nav-btn" disabled>Siguiente</button>
         </div>
-        
+
         <div class="final-results" id="finalResults" style="display: none;">
-            <h2>¡Quiz Completado!</h2>
+            <h2>🎉 ¡Quiz Completado!</h2>
             <div class="final-score" id="finalScore"></div>
-            <button id="restartBtn" class="restart-btn">Reiniciar Quiz</button>
+            <button id="restartBtn" class="load-btn">Crear Nuevo Quiz</button>
         </div>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
 </html>

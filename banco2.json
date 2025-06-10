@@ -1,0 +1,27 @@
+[
+  {
+    "pregunta": "¿En qué año llegó el hombre a la Luna?",
+    "opciones": ["1967", "1968", "1969", "1970"],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "¿Cuál es el océano más grande?",
+    "opciones": ["Atlántico", "Pacífico", "Índico", "Ártico"],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "¿Quién escribió 'Don Quijote'?",
+    "opciones": ["Lope de Vega", "Miguel de Cervantes", "Federico García Lorca", "Antonio Machado"],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "¿Cuál es la fórmula del agua?",
+    "opciones": ["CO2", "H2O", "NaCl", "CH4"],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "¿Cuántos continentes hay?",
+    "opciones": ["5", "6", "7", "8"],
+    "respuesta": 2
+  }
+]

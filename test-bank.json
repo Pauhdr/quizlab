@@ -1,0 +1,27 @@
+[
+  {
+    "pregunta": "¿Cuál es la capital de España?",
+    "opciones": ["Madrid", "Barcelona", "Valencia", "Sevilla"],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "¿Cuánto es 5 + 3?",
+    "opciones": ["7", "8", "9", "10"],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "¿Cuál es el planeta más cercano al Sol?",
+    "opciones": ["Venus", "Tierra", "Mercurio", "Marte"],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "¿En qué año llegó el hombre a la Luna?",
+    "opciones": ["1967", "1968", "1969", "1970"],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "¿Cuál es el océano más grande?",
+    "opciones": ["Atlántico", "Pacífico", "Índico", "Ártico"],
+    "respuesta": 1
+  }
+]

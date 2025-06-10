@@ -1,0 +1,506 @@
+[
+  {
+    "pregunta": "Según Wooldridge, la flexibilidad de un agente frente a un entorno se entiende como que es:",
+    "opciones": [
+      "Reactivo, Proactivo y Social.",
+      "Creencias, Deseos e Intenciones.",
+      "Reactivo, Adaptativo y Negociador"
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "Los agentes reactivos se basan en la idea de que:",
+    "opciones": [
+      "El conocimiento de un agente se puede dividir en creencias, deseos e intenciones, según el modelo de sistema intencional.",
+      "La reactividad es una de las características básicas de un agente, junto a la sociabilidad.",
+      "El comportamiento inteligente es producto de la interacción con el entorno y emerge de comportamientos simples."
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "¿Cuál de las siguientes afirmaciones no corresponde a las arquitecturas de subsunción?:",
+    "opciones": [
+      "Un agente se estructura en una jerarquía de comportamientos que consiguen tareas.",
+      "Las capas más bajas de un agente inhiben a las capas más altas.",
+      "La capa más alta se suele conocer como capa social, estando al cargo de las comunicaciones de alto nivel del agente."
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Indica qué afirmación es falsa de entre las siguientes afirmaciones referidas a las arquitecturas híbridas de agente:",
+    "opciones": [
+      "Un agente con capas horizontales tiene sus capas­directamente­conectadas­a­la­entrada­ sensorial­y­la­salida­de­acciones.­­",
+      "Las TouringMachines tienen tres capas horizontales al cargo del control del agente.",
+      "InterRap posee un subsistema de control que permite decidir qué capa debería tener el control sobre el agente."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "En JASON, ¿cuál de las siguientes no es una anotación válida?",
+    "opciones": [
+      "source(percept) - Informacion perceptual: aquella que siente del entorno",
+      "source(id_conversacion) - Comunicación: aquella que proviene de la conversación con identificador id_conversacion",
+      "source(self) - Notas mentales: creencias que provienen del propio agente"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "En JASON, dado el siguiente objetivo de testeo: ?pos(X,Y,Z)",
+    "opciones": [
+      "Sirve para instanciar en X, Y y Z los valores de la creencia pos.",
+      "Busca una creencia de tipo pos con los valores X, Y y Z.",
+      "Crea una nueva creencia con con los valores X, Y y Z."
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "En JASON, la acción interna .at(\"now +1 m\", {+!g})",
+    "opciones": [
+      "Crea la creencia g pasado un minuto del instante actual.",
+      "Lanza el evento +!g pasado un minuto del instante actual.",
+      "Ejecuta el plan asociado a la creencia g pasado un minuto del instante actual."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "¿Cuál de las siguientes afirmaciones es falsa?",
+    "opciones": [
+      "KIF es un lenguaje que permite la definición de contenidos.",
+      "KIF es un lenguaje basado en la lógica de primer orden con una notación tipo Lisp.",
+      "KIF es un lenguaje que permite la definición de mensajes para comunicar agentes."
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "¿Cuál de las siguientes partes no pertenece a un mensaje KQML?",
+    "opciones": [
+      ":ontology",
+      ":reply-with",
+      ":conversation-id"
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "¿Cuál de las siguientes no es una respuesta correcta frente a un mensaje PROPOSE según el protocolo de FIPA Iterated-Contract-Net?",
+    "opciones": [
+      "CFP (Call For Proposals)",
+      "ACEPT-PROPOSAL",
+      "INFORM"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "En un agente de tipo broker",
+    "opciones": [
+      "Se limita a poner en contacto a solicitantes con proveedores",
+      "Ofrece servicios a los agentes proveedores de servicios",
+      "Todas las comunicaciones pasan a través de él"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Indica que afirmación es CIERTA",
+    "opciones": [
+      "La cooperación puede ser coordinada o competitiva",
+      "La coordinación puede ser cooperativa o competitiva",
+      "La competición puede ser cooperativa o coordinada"
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "Supongamos 3 agentes Ag= {1, 2, 3} y tres opciones O={a, b, c}, y las siguientes preferencias (Condiciones Condorcet) 1 a ö b ö c, 2 b ö c ö a, 3 a ö c ö b. ¿Cuál sería la opción perdedora Condorcet?",
+    "opciones": [
+      "La opción a",
+      "La opción b",
+      "La opción c"
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "En la subasta japonesa:",
+    "opciones": [
+      "El vendedor va incrementando el precio en cada iteración",
+      "Cada pujador realiza su puja por la cantidad que desee, siempre más alta que la anterior puja",
+      "El ganador de la puja debe pagar el último precio que indicó y con el que ganó la subasta"
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "La estrategia dominante en la subasta holandesa es:",
+    "opciones": [
+      "Decir la verdad y pujar por nuestro precio límite",
+      "Pujar la unidad incremental mínima hasta que el resto de agentes alcanzaron su máximo",
+      "No tiene"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "En JASON, la acción interna .nth(1, Object, Team);",
+    "opciones": [
+      "Crea la creencia Team con el elemento que ocupa la posición 1 de la lista Object.",
+      "Guarda en la variable Object el elemento que ocupa la posición 1 de la lista Team",
+      "Guarda en la variable Team el elemento que ocupa la posición 1 de la lista Object."
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Supongamos 24 agentes Ag= {1, 2, …. 24} y tres opciones O={a, b, c}, y las siguientes preferencias (Condiciones Condorcet) 10 agentes c > b > a, 8 agentes b > c > a, 6 agentes a > c >b. ¿Cuál sería la opción ganadora si aplicamos pluralidad?",
+    "opciones": [
+      "Ganará la opción b",
+      "Ganará la opción a",
+      "Ganará la opción c"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "En un agente de razonamiento prác co, la diferencia entre compromiso ciego y faná co es:",
+    "opciones": [
+      "Son iguales.",
+      "El compromiso faná co sigue intentando la intención mientras la cree posible.",
+      "El compromiso ciego sigue intentando la intención mientras la cree posible."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "En la arquitectura de subsunción un comportamiento es…",
+    "opciones": [
+      "Una intención.",
+      "Un par (condición, acción).",
+      "Un plan precompilado."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "En JASON, qué habría que poner en lugar de ? si quiero que la acción .send(A, ?, Z) haga que A interprete el contenido de Z como obje vo:",
+    "opciones": [
+      "order",
+      "achieve",
+      "tell"
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "Supongamos 9 agentes Ag= {1, 2, …. 9} y tres opciones O={a, b, c}, y las siguientes preferencias (Condiciones Condorcet). 2 agentes a > b > c, 5 agentes c > b > a, 2 agentes a > c > b. ¿Cuál sería la opción ganadora Condorcet?",
+    "opciones": [
+      "Ganará la opción c",
+      "Ganará la opción b",
+      "Ganará la opción a"
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "¿Cuáles de las siguientes afirmaciones acerca de las funciones de bienestar social (SWF) son correctas y cuales son falsas?",
+    "opciones": [
+      "Cualquier SWF que es dictatorial NO es independiente de alterna vas irrelevantes.",
+      "Cualquier SWF que es dictatorial NO es Pareto-eûciente.",
+      "El Teorema de Arrow indica que cualquier SWF que es Pareto-eficiente e independiente de alterna vas irrelevantes ha de ser dictatorial."
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Un entorno accesible es:",
+    "opciones": [
+      "Por ejemplo, el mundo sico diario.",
+      "Aquel en el que se puede asumir que no se producen cambios excepto los provocados por la ejecución de acciones del agente.",
+      "Aquel en el que el agente puede obtener información completa, exacta y actualizada del estado del entorno."
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Se dice que un agente BDI ene una estrategia de compromiso inquebrantable cuando …",
+    "opciones": [
+      "Con nuará manteniendo una intención mientras la crea posible.",
+      "Con nuará manteniendo una intención hasta que crea que o bien ha logrado la intención, o bien ya no es posible lograrla.",
+      "Con nuará manteniendo una intención"
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "El mensaje de respuesta normal a una solicitud según el protocolo FIPA-query es…",
+    "opciones": [
+      "Inform.",
+      "Agree.",
+      "Refuse."
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "En una plataforma FIPA, el servicio de páginas amarillas, donde se registran los servicios lo realiza el…",
+    "opciones": [
+      "ACC.",
+      "DF.",
+      "AMS."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "En JASON, qué habría que poner en lugar de ? si quiero que la acción .send(A, ?, Z) añada el contenido de Z a las creencias de A:",
+    "opciones": [
+      "achieve",
+      "tell",
+      "order"
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "En JASON, ¿cuál de las siguientes es una anotación válida?",
+    "opciones": [
+      "source(id_conversacion) - Comunicación: aquella que proviene de la conversación con iden ficador id_conversacion",
+      "source(plan_name) - Notas mentales: creencias que provienen del plan con el nombre plan_name",
+      "source(percept) - Informacion perceptual: aquella que percibe del entorno"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "En JASON, la acción .send(A, tell, Z) :",
+    "opciones": [
+      "Envía el contenido de Z al agente cuyo id es A.",
+      "Envía el Z al agente A.",
+      "Envía A al agente Z"
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "En JASON un mensaje de po tell.",
+    "opciones": [
+      "Crea un nuevo obje vo en el emisor.",
+      "Crea una nueva creencia en el receptor.",
+      "Crea un nuevo obje vo en el receptor."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "¿Cómo le diría un agente del EJE a otro la posición en que se encuentra en pygomas? El nombre del otro agente está instanciado en la variable A.",
+    "opciones": [
+      "?posi on(MiPos); .send(A, tell, MiPos);",
+      "?posi on(MiPos); .send(A, achieve, MiPos);",
+      "?posi on(X,Y,Z); .send(A, tell, (X,Y,Z));"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Supongamos 24 agentes Ag= {1, 2, …. 24} y tres opciones O={a, b, c}, y las siguientes preferencias (Condiciones Condorcet) 6 agentes a > c > b, 12 agentes c > b > a, 6 agentes a > b > c. ¿Cuál sería la opción ganadora si aplicamos conteo Borda?",
+    "opciones": [
+      "Ganará la opción b",
+      "Ganará la opción c",
+      "Ganará la opción a"
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "¿Qué quiere decir que un agente es proactivo?",
+    "opciones": [
+      "Que toma la iniciativa intentando conseguir sus propios objetivos, no guiándose sólo por eventos.",
+      "Que se guía por eventos para decidir qué acción tomar.",
+      "Que posee un sistema intencional en base al cual toma sus decisiones sobre la acción a realizar en el siguiente estado."
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "Supongamos 3 agentes Ag= {1, 2, 3} y tres opciones O={a, b, c}, y las siguientes preferencias (Condiciones Condorcet) 1. c > b > a, 2. b > c > a, 3. a > c > b. ¿Cuál sería la opción ganadora y la perdedora Condorcet?",
+    "opciones": [
+      "Ganará la opción a",
+      "Ganará la opción b",
+      "Ganará la opción c"
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "Un acuerdo pareto eficiente es:",
+    "opciones": [
+      "aquel que maximiza la utilidad conjunta de los dos agentes.",
+      "aquel en que no se puede mejorar la utilidad de uno de los dos agentes sin empeorar la utilidad del otro.",
+      "aquel en que uno de los agentes obtiene la máxima utilidad."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "Los principales lenguajes de comunicación en la tecnología de agentes son:",
+    "opciones": [
+      "KQML y Fipa ACL,",
+      "RDF y HTML,",
+      "SL y OWL"
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "En la arquitectura de subsunción:",
+    "opciones": [
+      "el comportamiento inteligente puede ser logrado mediante razonamiento simbólico.",
+      "el comportamiento inteligente puede ser logrado sin razonamiento abstracto explicito del tipo que la IA simbólica propone.",
+      "el comportamiento inteligente puede ser logrado mediante razonamiento abstracto explicito del tipo que la IA simbólica propone."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "¿Cuál es el resultado del proceso de deliberación de un agente BDI?",
+    "opciones": [
+      "Creencias.",
+      "Deseos.",
+      "Intenciones."
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "En una arquitectura híbrida horizontal&",
+    "opciones": [
+      "Sólo la capa inferior está conectada a los sensores y a los actuadores.",
+      "Sólo la capa inferior está conectada a los sensores y sólo la superior a los actuadores.",
+      "Todas las capas están conectadas a sensores y actuadores."
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "La estrategia dominante en una subasta de sobre cerrado de segundo precio es:",
+    "opciones": [
+      "Decir la verdad y pujar por nuestro precio límite.",
+      "No hay estrategia dominante.",
+      "Pujar por más de nuestro precio límite, ya que se paga el segundo precio."
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "El protocolo FIPA-query :",
+    "opciones": [
+      "permite a un agente requerir la colaboración de otro agente.",
+      "permite a un agente solicitar que otro agente le proporcione información.",
+      "permite a un agente solicitar que otro agente realice una acción."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "La subasta holandesa:",
+    "opciones": [
+      "es de precio descendente y el vendedor indica un precio máximo.",
+      "es de precio ascendente y el vendedor indica un precio mínimo.",
+      "es de sobre cerrado, quedándose con el primer precio."
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "En una plataforma FIPA, el servicio de páginas blancas, donde se registran los agentes de la plataforma y se controla su ciclo de vida lo realiza el&",
+    "opciones": [
+      "AMS.",
+      "ACC.",
+      "DF."
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "El paradigma de la computación como interacción se basa en que:",
+    "opciones": [
+      "la computación ocurre en cada uno de los agentes que comparten el mismo entorno.",
+      "la computación ocurre cuando los agentes están en un mismo entorno.",
+      "la computación ocurre mediante y a través de la comunicación entre entidades computacionales."
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "¿Qué es la perlocución?",
+    "opciones": [
+      "el acto comunicativo que el emisor transmite al receptor",
+      "los efectos que pueden tener los actos ilocutorios en el estado del destinatario y en sus creencias, acciones y juicios.",
+      "los efectos que pueden tener los actos ilocutorios en el estado del emisor y en sus creencias, acciones y juicios cuando el perceptor acepta el acto comunicativo."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "En la finalización normal del protocolo CONTRACT-NET, el agente iniciador &",
+    "opciones": [
+      "Envía un mensaje de tipo inform-done a todos los participantes.",
+      "Envía un mensaje de tipo accept -proposal al agente con el que se queda y un reject-proposal  al resto .",
+      "Envía un mensaje de tipo agree a todos los participantes."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "Supongamos 3 agentes Ag= {1, 2, 3} y tres opciones O={a, b, c}, y las siguientes preferencias (Condiciones Condorcet) 1 a ö b ö c, 2 b ö c ö a, 3 a ö c ö b. ¿Cuál sería la opción ganadora y la perdedora Condorcet?",
+    "opciones": [
+      "Ganará la opción a",
+      "Ganará la opción b",
+      "Ganará la opción c"
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "¿Cuál es el significado de la siguiente oferta combinatoria ({a,b},3)XOR({c,d},5)?:",
+    "opciones": [
+      "Pagaré 3 por un lote que contenga a y b pero no c y d. Pagaré 5 por un lote que contenga c y d de pero no a y b, y pagaré 5 por un lote que contenga a, b, c y d.",
+      "Pagaré 3 por un lote que contenga a y b. Pagaré 5 por un lote que contenga c y d.",
+      "Pagaré 3 por un lote que contenga a y b pero no c y d. Pagaré 5 por un lote que contenga c y d de pero no a y b."
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "El protocolo FIPA-request :",
+    "opciones": [
+      "permite a un agente requerir la colaboración de otro agente.",
+      "permite a un agente solicitar que otro agente le proporcione información.",
+      "permite a un agente solicitar que otro agente realice una acción."
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "¿Qué es la negociación entre agentes?",
+    "opciones": [
+      "Es la capacidad de interactura para alcanzar acuerdos.",
+      "Es la capacidad de alcanzar acuerdos sobre temas de interés común.",
+      "Es el método que se sigue para alcanzar acuerdos sobre temas de interé común."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "Según Wooldridge, un agente es:",
+    "opciones": [
+      "cualquier proceso computacional dirigido por el objetivo capaz de interaccionar con su entorno de forma escalable y robusta.",
+      "cualquier proceso computacional dirigido por el objetivo capaz de interaccionar con su entorno de forma flexible y robusta.",
+      "cualquier proceso computacional reactivo, proactivo y social."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "La subasta japonesa:",
+    "opciones": [
+      "es de precio ascendente y el vendedor indica un precio inicial.",
+      "es de precio ascendente y el vendedor indica un precio mínimo inicial.",
+      "es de precio ascendente y el vendedor indica un plazo máximo de finalización."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "¿Qué es una ontología?",
+    "opciones": [
+      "Es una definición formal de las relaciones de las clases de un dominio.",
+      "Es una definición formal de un cuerpo de conocimiento (conceptos y relaciones).",
+      "Es un lenguaje de representación del conocimiento."
+    ],
+    "respuesta": 1
+  },
+  {
+    "pregunta": "¿Qué es un sistema intencional?",
+    "opciones": [
+      "Es aquel que se define por medio de indicar las intenciones que puede llegar a tener el sistema.",
+      "Es aquel que se define mediante un conjunto de planes que modelan su comportamiento.",
+      "Es aquel cuyo comportamiento puede ser predicho por el método de atribuir creencias, deseos y perspicacia racional."
+    ],
+    "respuesta": 2
+  },
+  {
+    "pregunta": "El objetivo del social choice es …",
+    "opciones": [
+      "Tomar una decisión conjunta.",
+      "Ganar un producto al resto de participantes / competidores.",
+      "Conseguir una venta mutuamente satisfactoria para comprador y vendedor."
+    ],
+    "respuesta": 0
+  },
+  {
+    "pregunta": "Supongamos 30 agentes Ag= {1, 2, 3} y tres opciones O={a, b, c}, y las siguientes preferencias (Condiciones Condorcet) 5 agentes  a < b < c, 15 agentes  b < c < a, 10 agentes  a < c < b. ¿Cuál sería la opción ganadora y la perdedora Condorcet?",
+    "opciones": [
+      "Ganará la opción a",
+      "Ganará la opción b",
+      "Ganará la opción c"
+    ],
+    "respuesta": 0
+  }
+]
