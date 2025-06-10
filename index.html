@@ -12,7 +12,9 @@
             <div class="header-content" id="headerContent">
                 <h1 id="headerTitle">Crear Quiz</h1>
                 <div class="quiz-header" id="quizHeader" style="display: none;">
-                    <button id="exitQuizBtn" class="exit-btn">✕ Salir</button>
+                    <div class="quiz-title-section">
+                        <button id="exitQuizBtn" class="exit-btn">✕ Salir</button>
+                    </div>
                     <div class="quiz-progress">
                         <div class="progress-container">
                             <div class="progress-bar" id="progressBar"></div>
@@ -79,9 +81,13 @@
                         <label>
                             <input type="checkbox" id="allowBlankAnswers" checked> Permitir dejar preguntas en blanco
                         </label>
+                        <label>
+                            <input type="checkbox" id="hideAnswersUntilEnd"> Ocultar respuestas hasta el final
+                        </label>
                         <small class="scoring-help">
                             • Las preguntas en blanco no suman ni restan puntos<br>
-                            • Solo las respuestas marcadas incorrectamente pueden restar
+                            • Solo las respuestas marcadas incorrectamente pueden restar<br>
+                            • Si ocultas las respuestas, verás un resumen completo al final
                         </small>
                     </div>
                 </div>
@@ -173,6 +179,9 @@
                                 </div>
                                 <label>
                                     <input type="checkbox" id="allowBlankAnswersMixed" checked> Permitir dejar preguntas en blanco
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="hideAnswersUntilEndMixed"> Ocultar respuestas hasta el final
                                 </label>
                             </div>
                         </div>

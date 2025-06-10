@@ -265,3 +265,30 @@ validateFile(file) {
 
 Este proyecto es de código abierto bajo licencia MIT.
 Puedes usarlo, modificarlo y distribuirlo libremente.
+
+## ⚙️ Configuración Avanzada de Puntuación
+
+### Opciones Disponibles
+- **✅ Respuestas incorrectas restan puntos**: Configurable (1-5 incorrectas = -1 punto)
+- **✅ Permitir dejar preguntas en blanco**: Las respuestas en blanco no afectan la puntuación
+- **🆕 Ocultar respuestas hasta el final**: No muestra feedback inmediato, incluye resumen completo al final
+
+### Modo Ocultar Respuestas
+Cuando activas "Ocultar respuestas hasta el final":
+- ✅ No se muestra si la respuesta es correcta o incorrecta
+- ✅ Solo confirma que se registró la respuesta
+- ✅ Al finalizar, muestra un resumen detallado con:
+  - Estado de cada pregunta (✓ Correcta, ✗ Incorrecta, — En blanco)
+  - Tu respuesta vs. respuesta correcta
+  - Todas las opciones con indicadores visuales
+  - Estadísticas completas de desempeño
+
+```javascript
+// Configuración de ejemplo
+scoringConfig: {
+    enableNegativeScoring: true,
+    incorrectPenalty: 3,
+    allowBlankAnswers: true,
+    hideAnswersUntilEnd: true  // Nueva funcionalidad
+}
+```

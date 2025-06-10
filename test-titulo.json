@@ -1,0 +1,12 @@
+[
+    {
+        "pregunta": "¿Cuál es la capital de España?",
+        "opciones": ["Madrid", "Barcelona", "Valencia", "Sevilla"],
+        "respuesta": 0
+    },
+    {
+        "pregunta": "¿Cuál es el océano más grande?",
+        "opciones": ["Atlántico", "Pacífico", "Índico", "Ártico"],
+        "respuesta": 1
+    }
+]

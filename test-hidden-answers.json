@@ -1,0 +1,27 @@
+[
+    {
+        "pregunta": "¿Cuál es la capital de Francia?",
+        "opciones": ["Londres", "París", "Madrid", "Roma"],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "¿Qué gas compone principalmente la atmósfera terrestre?",
+        "opciones": ["Oxígeno", "Nitrógeno", "Dióxido de carbono", "Helio"],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "¿En qué año se inventó la World Wide Web?",
+        "opciones": ["1989", "1991", "1993", "1995"],
+        "respuesta": 0
+    },
+    {
+        "pregunta": "¿Cuál es el planeta más grande del sistema solar?",
+        "opciones": ["Saturno", "Neptuno", "Júpiter", "Urano"],
+        "respuesta": 2
+    },
+    {
+        "pregunta": "¿Quién escribió 'Cien años de soledad'?",
+        "opciones": ["Mario Vargas Llosa", "Gabriel García Márquez", "Isabel Allende", "Julio Cortázar"],
+        "respuesta": 1
+    }
+]

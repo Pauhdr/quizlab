@@ -13,7 +13,8 @@ class QuizApp {
         this.scoringConfig = {
             enableNegativeScoring: false,
             incorrectPenalty: 3, // Cada X respuestas incorrectas restan 1 punto
-            allowBlankAnswers: true
+            allowBlankAnswers: true,
+            hideAnswersUntilEnd: false // Nueva opción para ocultar respuestas
         };
         
         this.init();
@@ -133,7 +134,8 @@ class QuizApp {
             this.scoringConfig = {
                 enableNegativeScoring: document.getElementById('enableNegativeScoring').checked,
                 incorrectPenalty: parseInt(document.getElementById('incorrectPenalty').value),
-                allowBlankAnswers: document.getElementById('allowBlankAnswers').checked
+                allowBlankAnswers: document.getElementById('allowBlankAnswers').checked,
+                hideAnswersUntilEnd: document.getElementById('hideAnswersUntilEnd').checked
             };
             
             // Deshabilitar botón y mostrar estado de carga
@@ -353,6 +355,29 @@ class QuizApp {
             }
         }
 
+        // Si se deben ocultar las respuestas hasta el final, no mostrar feedback ni marcar correctas/incorrectas
+        if (this.scoringConfig.hideAnswersUntilEnd) {
+            let feedbackHTML = '';
+            if (selectedIndex === -1) {
+                feedbackHTML = `
+                    <div class="feedback blank">
+                        💭 Has dejado esta pregunta en blanco.
+                    </div>
+                `;
+            } else {
+                feedbackHTML = `
+                    <div class="feedback selected">
+                        ✓ Respuesta registrada. Las respuestas se mostrarán al final del quiz.
+                    </div>
+                `;
+            }
+            
+            feedbackDiv.innerHTML = feedbackHTML;
+            this.updateNavigation();
+            return;
+        }
+
+        // Comportamiento normal: mostrar respuestas inmediatamente
         // Marcar la respuesta correcta
         options[correctIndex].classList.add('correct');
 
@@ -507,11 +532,18 @@ class QuizApp {
             `;
         }
 
+        // Agregar resumen detallado si se ocultaron las respuestas
+        let answersSummary = '';
+        if (this.scoringConfig.hideAnswersUntilEnd) {
+            answersSummary = this.generateAnswersSummary();
+        }
+
         document.getElementById('finalScore').innerHTML = `
             <div style="font-size: 2em; margin-bottom: 10px;">${this.score}/${this.questions.length}</div>
             <div style="font-size: 1.5em; margin-bottom: 10px;">${percentage}%</div>
             <div style="color: #667eea;">${message}</div>
             ${detailedStats}
+            ${answersSummary}
         `;
 
         // Actualizar barra de progreso al 100%
@@ -696,7 +728,8 @@ class QuizApp {
             this.scoringConfig = {
                 enableNegativeScoring: document.getElementById('enableNegativeScoringMixed').checked,
                 incorrectPenalty: parseInt(document.getElementById('incorrectPenaltyMixed').value),
-                allowBlankAnswers: document.getElementById('allowBlankAnswersMixed').checked
+                allowBlankAnswers: document.getElementById('allowBlankAnswersMixed').checked,
+                hideAnswersUntilEnd: document.getElementById('hideAnswersUntilEndMixed').checked
             };
             
             const questionsPerBank = document.getElementById('mixQuestions').value;
@@ -1222,7 +1255,8 @@ class QuizApp {
         this.scoringConfig = {
             enableNegativeScoring: false,
             incorrectPenalty: 3,
-            allowBlankAnswers: true
+            allowBlankAnswers: true,
+            hideAnswersUntilEnd: false
         };
         
         // Limpiar estadísticas
@@ -1272,6 +1306,82 @@ class QuizApp {
             blank: blankAnswers,
             total: this.questions.length
         };
+    }
+
+    generateAnswersSummary() {
+        let summaryHTML = `
+            <div style="margin-top: 30px; text-align: left; max-width: 800px; margin-left: auto; margin-right: auto;">
+                <h3 style="text-align: center; color: #667eea; margin-bottom: 25px;">📝 Resumen Detallado de Respuestas</h3>
+        `;
+
+        this.questions.forEach((question, index) => {
+            const userAnswer = this.answers[index];
+            const correctAnswer = question.respuesta;
+            const isCorrect = userAnswer === correctAnswer;
+            const isBlank = userAnswer === -1 || userAnswer === undefined || userAnswer === null;
+            
+            let statusIcon = '';
+            let statusColor = '';
+            let userAnswerText = '';
+            
+            if (isBlank) {
+                statusIcon = '—';
+                statusColor = '#6c757d';
+                userAnswerText = 'Sin respuesta';
+            } else if (isCorrect) {
+                statusIcon = '✓';
+                statusColor = '#28a745';
+                userAnswerText = `${String.fromCharCode(65 + userAnswer)}) ${question.opciones[userAnswer]}`;
+            } else {
+                statusIcon = '✗';
+                statusColor = '#dc3545';
+                userAnswerText = `${String.fromCharCode(65 + userAnswer)}) ${question.opciones[userAnswer]}`;
+            }
+
+            summaryHTML += `
+                <div style="border: 1px solid #e9ecef; border-radius: 10px; margin: 15px 0; padding: 20px; background: ${isCorrect ? 'rgba(40, 167, 69, 0.05)' : (isBlank ? 'rgba(108, 117, 125, 0.05)' : 'rgba(220, 53, 69, 0.05)')};">
+                    <div style="display: flex; align-items: flex-start; gap: 15px;">
+                        <div style="color: ${statusColor}; font-size: 1.5em; font-weight: bold; min-width: 30px;">
+                            ${statusIcon}
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; margin-bottom: 10px; color: #333;">
+                                Pregunta ${index + 1}: ${question.pregunta}
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <strong style="color: ${statusColor};">Tu respuesta:</strong> 
+                                <span style="color: ${statusColor};">${userAnswerText}</span>
+                            </div>
+                            ${!isCorrect ? `
+                                <div style="margin-bottom: 10px;">
+                                    <strong style="color: #28a745;">Respuesta correcta:</strong> 
+                                    <span style="color: #28a745;">${String.fromCharCode(65 + correctAnswer)}) ${question.opciones[correctAnswer]}</span>
+                                </div>
+                            ` : ''}
+                            <div style="margin-top: 15px;">
+                                <div style="font-size: 0.9em; color: #666; margin-bottom: 8px;"><strong>Opciones:</strong></div>
+                                ${question.opciones.map((opcion, optIndex) => `
+                                    <div style="margin: 5px 0; padding: 8px; border-radius: 5px; font-size: 0.9em; ${
+                                        optIndex === correctAnswer 
+                                            ? 'background: rgba(40, 167, 69, 0.1); border-left: 3px solid #28a745;' 
+                                            : (optIndex === userAnswer && !isCorrect && !isBlank)
+                                                ? 'background: rgba(220, 53, 69, 0.1); border-left: 3px solid #dc3545;'
+                                                : 'background: #f8f9fa; border-left: 3px solid transparent;'
+                                    }">
+                                        <strong>${String.fromCharCode(65 + optIndex)})</strong> ${opcion}
+                                        ${optIndex === correctAnswer ? ' <span style="color: #28a745; font-weight: bold;">✓</span>' : ''}
+                                        ${optIndex === userAnswer && !isCorrect && !isBlank ? ' <span style="color: #dc3545; font-weight: bold;">✗</span>' : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        summaryHTML += `</div>`;
+        return summaryHTML;
     }
 }
 
