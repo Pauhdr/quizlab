@@ -15,12 +15,19 @@
                     <div class="quiz-title-section">
                         <button id="exitQuizBtn" class="exit-btn">✕ Salir</button>
                         <h1 class="quiz-title">Quiz Interactivo</h1>
+                        <button id="viewResultsBtn" class="exit-btn" style="display: none;">🏁 Ver Resultados</button>
                     </div>
                     <div class="quiz-progress">
                         <div class="progress-container">
                             <div class="progress-bar" id="progressBar"></div>
                         </div>
                         <div class="score" id="score">Puntuación: 0/0</div>
+                        <div class="blank-questions-info" id="blankQuestionsInfo" style="display: none;">
+                            <span class="blank-count" id="blankCount">0 en blanco</span>
+                            <button id="reviewBlankBtn" class="review-blank-btn" title="Revisar preguntas en blanco">
+                                📝 Revisar en blanco
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

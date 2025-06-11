@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Nueva Funcionalidad de Preguntas en Blanco</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-title {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .instructions {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .expected {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #856404;
+        }
+        .json-sample {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+        }
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+        }
+        .change {
+            background: #d1ecf1;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #17a2b8;
+        }
+        .feature-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .feature-list li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+        }
+        .updated-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .updated-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .updated-list li:before {
+            content: "🔄 ";
+            color: #17a2b8;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔄 Test Actualizado: Nueva Funcionalidad de Preguntas en Blanco</h1>
+    
+    <div class="test-section">
+        <h2 class="test-title">📋 Cambios Implementados</h2>
+        
+        <div class="change">
+            <h3>🎯 Cambios Principales</h3>
+            <ul class="updated-list">
+                <li><strong>Indicador movido al header</strong>: El contador y botón ahora están en la sección de progreso del quiz</li>
+                <li><strong>Lógica de "en blanco" mejorada</strong>: Solo se marcan como "en blanco" las preguntas donde se selecciona explícitamente esa opción</li>
+                <li><strong>Navegación inteligente</strong>: Al avanzar sin responder, automáticamente se marca como "en blanco" si está permitido</li>
+                <li><strong>Indicadores visuales precisos</strong>: Solo se resaltan preguntas que fueron marcadas explícitamente como en blanco</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Comportamiento Actualizado:</strong><br>
+            - Las preguntas SIN responder NO aparecen como "en blanco" hasta que se selecciona explícitamente esa opción<br>
+            - El indicador visual (borde naranja) solo aparece en preguntas marcadas como "en blanco"<br>
+            - Al intentar avanzar sin responder, se marca automáticamente como "en blanco" si está permitido
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2 class="test-title">🧪 Instrucciones de Prueba Actualizadas</h2>
+        
+        <div class="step">
+            <strong>Paso 1:</strong> Abre el archivo principal de la aplicación en <code>http://localhost:8081</code>
+        </div>
+
+        <div class="step">
+            <strong>Paso 2:</strong> Copia y pega el siguiente JSON de prueba:
+            <div class="json-sample">
+[
+    {
+        "pregunta": "¿Cuál es la capital de Francia?",
+        "opciones": ["Madrid", "París", "Londres", "Roma"],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "¿Cuántos continentes hay?",
+        "opciones": ["5", "6", "7", "8"],
+        "respuesta": 2
+    },
+    {
+        "pregunta": "¿En qué año terminó la Segunda Guerra Mundial?",
+        "opciones": ["1944", "1945", "1946", "1947"],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "¿Cuál es el elemento químico con símbolo 'O'?",
+        "opciones": ["Oro", "Oxígeno", "Osmio", "Óxido"],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "¿Cuál es el planeta más cercano al Sol?",
+        "opciones": ["Venus", "Tierra", "Mercurio", "Marte"],
+        "respuesta": 2
+    }
+]
+            </div>
+        </div>
+
+        <div class="step">
+            <strong>Paso 3:</strong> Asegúrate de que esté marcado "Permitir dejar preguntas en blanco"
+        </div>
+
+        <div class="step">
+            <strong>Paso 4:</strong> Carga el quiz y observa que el indicador NO aparece inicialmente
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2 class="test-title">✅ Casos de Prueba Actualizados</h2>
+
+        <h3>🧪 Caso 1: Verificar ubicación del indicador</h3>
+        <div class="instructions">
+            <strong>Acción:</strong> Cargar el quiz y observar la interfaz inicial
+        </div>
+        <div class="expected">
+            <strong>Resultado esperado:</strong>
+            <ul>
+                <li>El contador de preguntas en blanco NO debe aparecer inicialmente</li>
+                <li>No debe haber indicadores visuales de "pregunta en blanco"</li>
+                <li>La navegación debe mostrar solo el contador de preguntas (1/5)</li>
+            </ul>
+        </div>
+
+        <h3>🧪 Caso 2: Seleccionar explícitamente "Dejar en blanco"</h3>
+        <div class="instructions">
+            <strong>Acción:</strong> En la primera pregunta, hacer clic en "💭 Dejar en blanco"
+        </div>
+        <div class="expected">
+            <strong>Resultado esperado:</strong>
+            <ul>
+                <li>Debe aparecer el indicador "1 en blanco" en el header (sección de progreso)</li>
+                <li>Debe aparecer el botón "📝 Revisar en blanco" en el header</li>
+                <li>La pregunta actual debe tener borde naranja y etiqueta "⚠️ Pregunta en blanco"</li>
+                <li>El indicador debe estar en la misma área que la puntuación y progreso</li>
+            </ul>
+        </div>
+
+        <h3>🧪 Caso 3: Avanzar sin responder (auto-marcado)</h3>
+        <div class="instructions">
+            <strong>Acción:</strong> En la segunda pregunta, NO seleccionar ninguna opción y hacer clic en "Siguiente"
+        </div>
+        <div class="expected">
+            <strong>Resultado esperado:</strong>
+            <ul>
+                <li>La pregunta debe marcarse automáticamente como "en blanco"</li>
+                <li>El contador debe mostrar "2 en blanco"</li>
+                <li>Debe avanzar a la siguiente pregunta</li>
+                <li>La pregunta anterior queda marcada como en blanco</li>
+            </ul>
+        </div>
+
+        <h3>🧪 Caso 4: Navegación con botón de revisión</h3>
+        <div class="instructions">
+            <strong>Acción:</strong> Desde la pregunta 3, hacer clic en "📝 Revisar en blanco" en el header
+        </div>
+        <div class="expected">
+            <strong>Resultado esperado:</strong>
+            <ul>
+                <li>Debe navegar a la primera pregunta marcada como en blanco</li>
+                <li>La pregunta debe mostrar borde naranja y etiqueta</li>
+                <li>Efecto de pulso durante 2 segundos</li>
+                <li>Mensaje de feedback específico para pregunta en blanco</li>
+            </ul>
+        </div>
+
+        <h3>🧪 Caso 5: Cambiar respuesta de "en blanco" a otra opción</h3>
+        <div class="instructions">
+            <strong>Acción:</strong> Desde una pregunta marcada como en blanco, seleccionar una respuesta normal
+        </div>
+        <div class="expected">
+            <strong>Resultado esperado:</strong>
+            <ul>
+                <li>El borde naranja debe desaparecer inmediatamente</li>
+                <li>El contador debe disminuir automáticamente</li>
+                <li>La etiqueta "⚠️ Pregunta en blanco" debe desaparecer</li>
+                <li>Se debe mostrar el feedback normal de la respuesta</li>
+            </ul>
+        </div>
+
+        <h3>🧪 Caso 6: Todas las preguntas respondidas</h3>
+        <div class="instructions">
+            <strong>Acción:</strong> Responder todas las preguntas con opciones normales (no en blanco)
+        </div>
+        <div class="expected">
+            <strong>Resultado esperado:</strong>
+            <ul>
+                <li>El indicador completo debe desaparecer del header</li>
+                <li>Al intentar usar "📝 Revisar en blanco" debe mostrar: "¡Excelente! No hay preguntas en blanco..."</li>
+                <li>El header debe mostrar solo progreso y puntuación</li>
+            </ul>
+        </div>
+
+        <h3>🧪 Caso 7: Responsive design en header</h3>
+        <div class="instructions">
+            <strong>Acción:</strong> Redimensionar la ventana del navegador a tamaño móvil
+        </div>
+        <div class="expected">
+            <strong>Resultado esperado:</strong>
+            <ul>
+                <li>En pantallas < 768px: El indicador debe mantenerse horizontal pero centrado</li>
+                <li>En pantallas < 480px: El indicador debe apilarse verticalmente</li>
+                <li>Los botones y contador deben adaptarse al tamaño de pantalla</li>
+                <li>Debe mantenerse legible y funcional</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2 class="test-title">🎯 Elementos Visuales Actualizados</h2>
+        
+        <h3>📍 Ubicación del Indicador</h3>
+        <ul>
+            <li><strong>Ubicación:</strong> En el header, sección de progreso del quiz</li>
+            <li><strong>Junto a:</strong> Barra de progreso y puntuación</li>
+            <li><strong>Área:</strong> Misma línea que el score, centrado</li>
+        </ul>
+
+        <h3>🎨 Estilos CSS en Header</h3>
+        <ul>
+            <li><strong>Contador:</strong> Fondo naranja (#ff8c00), texto blanco, más pequeño que en navegación</li>
+            <li><strong>Botón:</strong> Gradiente naranja, padding reducido (6px 12px)</li>
+            <li><strong>Disposición:</strong> Horizontal en desktop, vertical en móvil pequeño</li>
+            <li><strong>Responsive:</strong> Se adapta según tamaño de pantalla</li>
+        </ul>
+
+        <h3>🔍 Indicadores Visuales</h3>
+        <ul>
+            <li><strong>Borde naranja:</strong> Solo en preguntas marcadas explícitamente como en blanco</li>
+            <li><strong>Etiqueta "⚠️":</strong> Solo aparece cuando la pregunta actual está en blanco</li>
+            <li><strong>Animación de pulso:</strong> Al navegar a pregunta en blanco via botón de revisión</li>
+            <li><strong>Sin indicadores:</strong> En preguntas sin responder (hasta que se marcan automáticamente)</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2 class="test-title">🔧 Comportamiento del Sistema Actualizado</h2>
+
+        <h3>📝 Lógica de "En Blanco"</h3>
+        <ul>
+            <li><strong>Explícito:</strong> Solo cuando se selecciona "💭 Dejar en blanco"</li>
+            <li><strong>Automático:</strong> Al avanzar sin responder (si está permitido)</li>
+            <li><strong>Visual:</strong> Indicadores solo para preguntas marcadas como en blanco</li>
+            <li><strong>Navegación:</strong> El botón lleva solo a preguntas marcadas explícitamente</li>
+        </ul>
+
+        <h3>🚦 Control de Navegación</h3>
+        <ul>
+            <li><strong>Sin respuesta + blancos permitidos:</strong> Auto-marca como blanco al avanzar</li>
+            <li><strong>Sin respuesta + blancos NO permitidos:</strong> Botón "Siguiente" deshabilitado</li>
+            <li><strong>Con respuesta:</strong> Navegación normal</li>
+            <li><strong>Pregunta en blanco:</strong> Se puede cambiar a respuesta normal</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2 class="test-title">🎉 Estado de Implementación Actualizada</h2>
+        <div style="background: #d4edda; padding: 20px; border-radius: 8px; border: 1px solid #c3e6cb; color: #155724;">
+            <h3 style="margin-top: 0; color: #155724;">✅ ACTUALIZACIÓN COMPLETADA</h3>
+            <p><strong>Todos los requerimientos del usuario han sido implementados:</strong></p>
+            <ul>
+                <li>✅ Indicador movido al header (sección de progreso)</li>
+                <li>✅ Solo se marcan como "en blanco" las opciones seleccionadas explícitamente</li>
+                <li>✅ Auto-marcado al avanzar sin responder (si está permitido)</li>
+                <li>✅ Indicadores visuales precisos solo para preguntas en blanco</li>
+                <li>✅ Navegación inteligente mantenida</li>
+                <li>✅ Diseño responsive adaptado al header</li>
+                <li>✅ Funcionalidad completa e integrada</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

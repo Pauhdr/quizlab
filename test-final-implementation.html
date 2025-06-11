@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Final Implementation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f4f4f4;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .test-step {
+            margin: 10px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+        }
+        .status {
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+        .completed { background: #d4edda; color: #155724; }
+        .pending { background: #fff3cd; color: #856404; }
+        .button {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        .button:hover {
+            background: #5a6fd8;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test - Final Implementation of Blank Questions</h1>
+    
+    <div class="test-section">
+        <h2>✅ Completed Features</h2>
+        
+        <div class="test-step">
+            <strong>1. Blank Questions Indicator Moved to Header</strong>
+            <span class="status completed">✅ COMPLETED</span>
+            <p>The blank questions info is now displayed in the quiz header instead of navigation area.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>2. Explicit Blank Marking Only</strong>
+            <span class="status completed">✅ COMPLETED</span>
+            <p>Questions are only marked as "blank" when explicitly selected (value === -1), not when unanswered.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>3. Auto-Mark as Blank on Navigation</strong>
+            <span class="status completed">✅ COMPLETED</span>
+            <p>When advancing without answering, questions are automatically marked as blank.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>4. Visual Styling Updated</strong>
+            <span class="status completed">✅ COMPLETED</span>
+            <p>Removed orange container/border, warning indicators, and pulse animations. Updated to semi-transparent white design.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>5. View Results Button Added</strong>
+            <span class="status completed">✅ COMPLETED</span>
+            <p>Added "View Results" button in header that appears only when all questions are answered/marked blank.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>6. Hide Navigation Buttons in Results</strong>
+            <span class="status completed">✅ COMPLETED</span>
+            <p>Navigation buttons (exit, view results, review blank) are hidden when showing final results.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>7. Header Padding Fixed</strong>
+            <span class="status completed">✅ COMPLETED</span>
+            <p>Added responsive header padding for proper spacing on all screen sizes.</p>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🧪 Test Instructions</h2>
+        
+        <div class="test-step">
+            <strong>Step 1: Load Test Data</strong>
+            <p>Copy the content from <code>test-final-implementation.json</code> and paste it into the JSON input area.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>Step 2: Enable Blank Answers</strong>
+            <p>Make sure "Permitir respuestas en blanco" is checked in the scoring configuration.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>Step 3: Test Blank Question Flow</strong>
+            <ol>
+                <li>Start the quiz</li>
+                <li>Leave the first question unanswered and click "Siguiente" → Should auto-mark as blank</li>
+                <li>For the second question, explicitly select "En blanco" option</li>
+                <li>Answer the third question normally</li>
+                <li>Verify that blank questions info appears in header (not navigation)</li>
+                <li>Check that "View Results" button appears when all questions are completed</li>
+            </ol>
+        </div>
+        
+        <div class="test-step">
+            <strong>Step 4: Test Results View</strong>
+            <ol>
+                <li>Click "View Results" button</li>
+                <li>Verify that navigation buttons are hidden in results screen</li>
+                <li>Check that results display is clean without extra visual indicators</li>
+            </ol>
+        </div>
+        
+        <div class="test-step">
+            <strong>Step 5: Test Responsive Design</strong>
+            <ol>
+                <li>Resize browser window to mobile size (320px, 480px, 768px)</li>
+                <li>Verify header padding is appropriate at all sizes</li>
+                <li>Check that blank questions info displays properly on mobile</li>
+            </ol>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎯 Expected Behavior</h2>
+        
+        <div class="test-step">
+            <strong>Blank Questions Detection:</strong>
+            <p>Only questions with value === -1 should be counted as blank, not unanswered questions.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>Header Display:</strong>
+            <p>Blank questions info should appear as semi-transparent white elements in the quiz header.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>Navigation Control:</strong>
+            <p>"View Results" button should only appear when all questions are answered or marked blank.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>Results Screen:</strong>
+            <p>All navigation buttons should be hidden when viewing final results.</p>
+        </div>
+    </div>
+    
+    <a href="index.html" class="button">🚀 Start Test</a>
+    
+    <script>
+        // Add any test-specific JavaScript if needed
+        console.log('Test page loaded - Ready for testing final implementation');
+    </script>
+</body>
+</html>

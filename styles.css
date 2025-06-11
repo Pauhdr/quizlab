@@ -298,6 +298,91 @@ body {
     color: #666;
 }
 
+/* Estilos para información de preguntas en blanco - DESACTIVADOS (ahora están en el header)
+.blank-questions-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin: 0 10px;
+}
+
+.blank-count {
+    font-size: 0.9em;
+    color: #ff8c00;
+    font-weight: 600;
+    background: rgba(255, 140, 0, 0.1);
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 140, 0, 0.3);
+}
+
+.review-blank-btn {
+    background: linear-gradient(135deg, #ff8c00 0%, #ff7300 100%);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.review-blank-btn:hover {
+    background: linear-gradient(135deg, #ff7300 0%, #ff6000 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 140, 0, 0.3);
+}
+
+.review-blank-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+*/
+
+/* Estilos para pregunta actual en blanco - ELIMINADOS
+.question-card.blank-question {
+    background: rgba(255, 140, 0, 0.05);
+    border: 2px solid rgba(255, 140, 0, 0.3);
+    border-radius: 12px;
+    position: relative;
+}
+
+.question-card.blank-question::before {
+    content: "⚠️ Pregunta en blanco";
+    position: absolute;
+    top: -12px;
+    right: 15px;
+    background: #ff8c00;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+    z-index: 1;
+}
+
+Animación para pregunta en blanco - ELIMINADA
+@keyframes blankQuestionPulse {
+    0% { 
+        box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.7);
+        border-color: rgba(255, 140, 0, 0.3);
+    }
+    50% { 
+        box-shadow: 0 0 0 15px rgba(255, 140, 0, 0.1);
+        border-color: rgba(255, 140, 0, 0.6);
+    }
+    100% { 
+        box-shadow: 0 0 0 0 rgba(255, 140, 0, 0);
+        border-color: rgba(255, 140, 0, 0.3);
+    }
+}
+*/
+
 .final-results {
     text-align: center;
     padding: 50px 40px;
@@ -638,6 +723,58 @@ body {
     text-align: center;
 }
 
+/* Estilos para información de preguntas en blanco en el header */
+.quiz-progress .blank-questions-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    justify-content: center;
+}
+
+.quiz-progress .blank-count {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.9em;
+    font-weight: 600;
+    white-space: nowrap;
+    backdrop-filter: blur(10px);
+}
+
+.quiz-progress .review-blank-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    backdrop-filter: blur(10px);
+}
+
+.quiz-progress .review-blank-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+}
+
+.quiz-progress .review-blank-btn:disabled {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
 .exit-btn {
     background: rgba(255, 255, 255, 0.2);
     color: white;
@@ -857,6 +994,12 @@ body {
     border-color: #adb5bd;
 }
 
+.option.blank.selected {
+    border-color: #667eea;
+    background: rgba(102, 126, 234, 0.1);
+    color: #495057;
+}
+
 /* Diseño mobile-first aplicado a todos los dispositivos */
 
 /* Estilos personalizados para checkbox */
@@ -1044,6 +1187,7 @@ input[type="text"]:hover {
     position: relative;
     order: 0;
     margin-bottom: 5px;
+    padding: 8px;
 }
 
 .quiz-title {
@@ -1109,20 +1253,95 @@ input[type="text"]:hover {
     }
 }
 
-/* Estilos para modo ocultar respuestas */
-.option.selectable {
-    border-style: dashed;
-    border-width: 2px;
+/* Responsive para revisión de preguntas en blanco en el header */
+@media (max-width: 768px) {
+    .quiz-progress .blank-questions-info {
+        flex-direction: row;
+        gap: 8px;
+    }
+    
+    .quiz-progress .blank-count {
+        font-size: 0.8em;
+        padding: 3px 8px;
+    }
+    
+    .quiz-progress .review-blank-btn {
+        padding: 5px 10px;
+        font-size: 0.8em;
+    }
 }
 
-.option.selectable:hover {
-    border-color: #667eea;
-    background: rgba(102, 126, 234, 0.05);
-    transform: translateX(3px);
+@media (max-width: 480px) {
+    .quiz-progress .blank-questions-info {
+        flex-direction: column;
+        gap: 6px;
+    }
+    
+    .quiz-progress .blank-count {
+        font-size: 0.75em;
+        padding: 3px 8px;
+    }
+    
+    .quiz-progress .review-blank-btn {
+        padding: 4px 8px;
+        font-size: 0.75em;
+    }
 }
 
-.option.selectable.selected {
-    border-color: #667eea;
+/* Responsive para navegación simplificada */
+@media (max-width: 768px) {
+    .navigation {
+        flex-direction: row;
+        gap: 15px;
+        padding: 20px;
+        justify-content: space-between;
+    }
+    
+    .nav-btn {
+        width: auto;
+        max-width: 120px;
+    }
+    
+    .question-counter {
+        order: 0;
+        margin: 0;
+    }
+}
+
+/* Estilos para feedback de revisión de preguntas en blanco */
+.feedback.blank-review {
     background: rgba(102, 126, 234, 0.1);
-    border-style: solid;
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    color: #495057;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-weight: 500;
+}
+
+/* Responsive para header padding */
+@media (max-width: 768px) {
+    .header {
+        padding: 20px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 15px 10px;
+    }
+    
+    .quiz-header {
+        gap: 10px;
+    }
+    
+    .quiz-progress {
+        gap: 8px;
+    }
+}
+
+@media (max-width: 320px) {
+    .header {
+        padding: 12px 8px;
+    }
 }

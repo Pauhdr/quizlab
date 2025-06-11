@@ -1,0 +1,17 @@
+[
+    {
+        "question": "¿Cuál es la capital de Francia?",
+        "options": ["Londres", "París", "Berlín", "Madrid"],
+        "answer": 1
+    },
+    {
+        "question": "¿En qué año llegó el hombre a la Luna?",
+        "options": ["1968", "1969", "1970", "1971"],
+        "answer": 1
+    },
+    {
+        "question": "¿Cuál es el planeta más grande del sistema solar?",
+        "options": ["Tierra", "Marte", "Júpiter", "Saturno"],
+        "answer": 2
+    }
+]

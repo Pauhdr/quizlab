@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Preguntas en Blanco</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-title {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .instructions {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .expected {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .json-sample {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+        }
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+        }
+        .feature-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .feature-list li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test de Funcionalidad: Preguntas en Blanco</h1>
+    
+    <div class="test-section">
+        <h2 class="test-title">📋 Funcionalidades Implementadas</h2>
+        <ul class="feature-list">
+            <li><strong>Detección automática</strong>: Identifica preguntas sin responder</li>
+            <li><strong>Contador dinámico</strong>: Muestra cantidad de preguntas en blanco</li>
+            <li><strong>Navegación inteligente</strong>: Botón para revisar preguntas en blanco</li>
+            <li><strong>Resaltado visual</strong>: Indica preguntas en blanco con borde naranja</li>
+            <li><strong>Animación de enfoque</strong>: Efecto de pulso al navegar a pregunta en blanco</li>
+            <li><strong>Feedback contextual</strong>: Mensajes específicos para preguntas en blanco</li>
+            <li><strong>Integración completa</strong>: Funciona con ambos modos (normal y oculto)</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2 class="test-title">🧪 Instrucciones de Prueba</h2>
+        
+        <div class="instructions">
+            <strong>Para probar la funcionalidad de preguntas en blanco:</strong>
+        </div>
+
+        <div class="step">
+            <strong>Paso 1:</strong> Abre el archivo principal de la aplicación en <code>http://localhost:8081</code>
+        </div>
+
+        <div class="step">
+            <strong>Paso 2:</strong> Copia y pega el siguiente JSON de prueba:
+            <div class="json-sample">
+[
+    {
+        "pregunta": "¿Cuál es la capital de España?",
+        "opciones": ["Madrid", "Barcelona", "Valencia", "Sevilla"],
+        "respuesta": 0
+    },
+    {
+        "pregunta": "¿En qué año llegó el hombre a la luna?",
+        "opciones": ["1969", "1968", "1970", "1971"],
+        "respuesta": 0
+    },
+    {
+        "pregunta": "¿Cuál es el planeta más grande del sistema solar?",
+        "opciones": ["Tierra", "Saturno", "Júpiter", "Neptuno"],
+        "respuesta": 2
+    },
+    {
+        "pregunta": "¿Quién escribió 'Don Quijote de la Mancha'?",
+        "opciones": ["Lope de Vega", "Miguel de Cervantes", "Federico García Lorca", "Calderón de la Barca"],
+        "respuesta": 1
+    },
+    {
+        "pregunta": "¿Cuál es la fórmula química del agua?",
+        "opciones": ["H2O", "CO2", "NaCl", "CH4"],
+        "respuesta": 0
+    }
+]
+            </div>
+        </div>
+
+        <div class="step">
+            <strong>Paso 3:</strong> Asegúrate de que esté marcado "Permitir dejar preguntas en blanco"
+        </div>
+
+        <div class="step">
+            <strong>Paso 4:</strong> Carga el quiz y empieza las pruebas
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2 class="test-title">✅ Casos de Prueba</h2>
+
+        <h3>🧪 Caso 1: Detectar preguntas en blanco</h3>
+        <div class="instructions">
+            <strong>Acción:</strong> Responde solo la pregunta 1 y 3, deja las demás en blanco
+        </div>
+        <div class="expected">
+            <strong>Resultado esperado:</strong>
+            <ul>
+                <li>El contador debe mostrar "3 en blanco"</li>
+                <li>Debe aparecer el botón "📝 Revisar en blanco"</li>
+                <li>El botón debe estar habilitado</li>
+            </ul>
+        </div>
+
+        <h3>🧪 Caso 2: Navegación a preguntas en blanco</h3>
+        <div class="instructions">
+            <strong>Acción:</strong> Haz clic en "📝 Revisar en blanco"
+        </div>
+        <div class="expected">
+            <strong>Resultado esperado:</strong>
+            <ul>
+                <li>Debe navegar a la primera pregunta en blanco</li>
+                <li>La pregunta debe tener borde naranja</li>
+                <li>Debe aparecer "⚠️ Pregunta en blanco" en la esquina</li>
+                <li>Efecto de pulso durante 2 segundos</li>
+                <li>Mensaje de feedback específico para preguntas en blanco</li>
+            </ul>
+        </div>
+
+        <h3>🧪 Caso 3: Navegación circular</h3>
+        <div class="instructions">
+            <strong>Acción:</strong> Desde la última pregunta, haz clic en "📝 Revisar en blanco"
+        </div>
+        <div class="expected">
+            <strong>Resultado esperado:</strong>
+            <ul>
+                <li>Debe ir a la primera pregunta en blanco (navegación circular)</li>
+                <li>Mismo comportamiento visual que el caso anterior</li>
+            </ul>
+        </div>
+
+        <h3>🧪 Caso 4: Responder pregunta en blanco</h3>
+        <div class="instructions">
+            <strong>Acción:</strong> Responde una pregunta que estaba en blanco
+        </div>
+        <div class="expected">
+            <strong>Resultado esperado:</strong>
+            <ul>
+                <li>El contador debe disminuir automáticamente</li>
+                <li>El borde naranja debe desaparecer</li>
+                <li>El mensaje de "Pregunta en blanco" debe desaparecer</li>
+            </ul>
+        </div>
+
+        <h3>🧪 Caso 5: Todas las preguntas respondidas</h3>
+        <div class="instructions">
+            <strong>Acción:</strong> Responde todas las preguntas
+        </div>
+        <div class="expected">
+            <strong>Resultado esperado:</strong>
+            <ul>
+                <li>El contador y botón deben desaparecer completamente</li>
+                <li>Al hacer clic en "📝 Revisar en blanco" debe mostrar mensaje: "¡Excelente! No hay preguntas en blanco..."</li>
+            </ul>
+        </div>
+
+        <h3>🧪 Caso 6: Modo oculto</h3>
+        <div class="instructions">
+            <strong>Acción:</strong> Repite las pruebas con "Ocultar respuestas hasta el final" marcado
+        </div>
+        <div class="expected">
+            <strong>Resultado esperado:</strong>
+            <ul>
+                <li>Misma funcionalidad pero sin mostrar respuestas correctas/incorrectas</li>
+                <li>Contador y navegación funcionan igual</li>
+                <li>Feedback diferente: "Puedes cambiar tu respuesta antes de finalizar el quiz"</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2 class="test-title">🎯 Elementos Visuales a Verificar</h2>
+        
+        <h3>🎨 Estilos CSS</h3>
+        <ul>
+            <li><strong>Contador de preguntas en blanco:</strong> Fondo naranja, texto blanco</li>
+            <li><strong>Botón de revisión:</strong> Gradiente naranja con efecto hover</li>
+            <li><strong>Pregunta en blanco:</strong> Borde naranja con indicador "⚠️"</li>
+            <li><strong>Animación de pulso:</strong> Efecto suave de 2 segundos</li>
+            <li><strong>Responsive:</strong> Adapta en móviles (flex-direction: column)</li>
+        </ul>
+
+        <h3>📱 Compatibilidad Móvil</h3>
+        <ul>
+            <li>En pantallas menores a 768px, los elementos se apilan verticalmente</li>
+            <li>Botón y contador mantienen funcionalidad en móviles</li>
+            <li>Tamaños de fuente se adaptan para pantallas pequeñas</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2 class="test-title">🔧 Integración con Sistema Existente</h2>
+        <ul>
+            <li><strong>Guardado automático:</strong> Estado de preguntas en blanco se guarda/restaura</li>
+            <li><strong>Navegación:</strong> Compatible con botones Anterior/Siguiente</li>
+            <li><strong>Configuración:</strong> Respeta "Permitir dejar preguntas en blanco"</li>
+            <li><strong>Puntuación:</strong> Integra con sistema de puntuación existente</li>
+            <li><strong>Modos:</strong> Funciona tanto en modo normal como oculto</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2 class="test-title">🎉 Estado de Implementación</h2>
+        <div style="background: #d4edda; padding: 20px; border-radius: 8px; border: 1px solid #c3e6cb; color: #155724;">
+            <h3 style="margin-top: 0; color: #155724;">✅ IMPLEMENTACIÓN COMPLETADA</h3>
+            <p><strong>Todas las funcionalidades de preguntas en blanco han sido implementadas exitosamente:</strong></p>
+            <ul>
+                <li>✅ Detección automática de preguntas sin responder</li>
+                <li>✅ Contador dinámico en tiempo real</li>
+                <li>✅ Navegación inteligente con botón de revisión</li>
+                <li>✅ Resaltado visual y animaciones</li>
+                <li>✅ Integración completa con sistema existente</li>
+                <li>✅ Compatibilidad con ambos modos de respuesta</li>
+                <li>✅ Responsive design para móviles</li>
+                <li>✅ Guardado/restauración de estado</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

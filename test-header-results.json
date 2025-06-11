@@ -1,0 +1,12 @@
+[
+    {
+        "pregunta": "¿Cuál es la capital de España?",
+        "opciones": ["Madrid", "Barcelona", "Valencia", "Sevilla"],
+        "respuesta": 0
+    },
+    {
+        "pregunta": "¿En qué año llegó el hombre a la luna?",
+        "opciones": ["1969", "1968", "1970", "1971"],
+        "respuesta": 0
+    }
+]

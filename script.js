@@ -39,6 +39,7 @@ class QuizApp {
         document.getElementById('createMixedQuizBtn').addEventListener('click', () => this.createMixedQuiz());
         document.getElementById('restartBtn').addEventListener('click', () => this.restart());
         document.getElementById('exitQuizBtn').addEventListener('click', () => this.exitQuiz());
+        document.getElementById('viewResultsBtn').addEventListener('click', () => this.showFinalResults());
 
         // Event listeners para guardar en banco
         document.getElementById('saveToBank').addEventListener('change', (e) => {
@@ -93,10 +94,17 @@ class QuizApp {
         // Remover listeners existentes para evitar duplicados
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
+        const reviewBlankBtn = document.getElementById('reviewBlankBtn');
         
         // Clonar los botones para eliminar todos los listeners existentes
         const newPrevBtn = prevBtn.cloneNode(true);
         const newNextBtn = nextBtn.cloneNode(true);
+        let newReviewBlankBtn = null;
+        
+        if (reviewBlankBtn) {
+            newReviewBlankBtn = reviewBlankBtn.cloneNode(true);
+            reviewBlankBtn.parentNode.replaceChild(newReviewBlankBtn, reviewBlankBtn);
+        }
         
         prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
         nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
@@ -104,6 +112,12 @@ class QuizApp {
         // Agregar los nuevos listeners
         document.getElementById('prevBtn').addEventListener('click', () => this.previousQuestion());
         document.getElementById('nextBtn').addEventListener('click', () => this.nextQuestion());
+        
+        // Event listener para revisar preguntas en blanco
+        const finalReviewBlankBtn = document.getElementById('reviewBlankBtn');
+        if (finalReviewBlankBtn) {
+            finalReviewBlankBtn.addEventListener('click', () => this.reviewBlankQuestions());
+        }
     }
 
     showInputScreen() {
@@ -301,6 +315,7 @@ class QuizApp {
 
         this.updateNavigation();
         this.updateQuestionCounter();
+        this.updateBlankQuestionsInfo();
     }
 
     selectOption(selectedIndex) {
@@ -333,6 +348,7 @@ class QuizApp {
         this.showAnswerResult(selectedIndex, true);
         this.updateScore();
         this.updateProgress();
+        this.updateBlankQuestionsInfo();
         
         // Guardar estado automáticamente
         this.saveQuizState();
@@ -369,22 +385,22 @@ class QuizApp {
                 option.style.pointerEvents = 'auto';
             });
             
-            let feedbackHTML = '';
-            if (selectedIndex === -1) {
-                feedbackHTML = `
-                    <div class="feedback blank">
-                        💭 Has dejado esta pregunta en blanco. Puedes cambiar tu respuesta antes de finalizar el quiz.
-                    </div>
-                `;
-            } else {
-                feedbackHTML = `
-                    <div class="feedback selected">
-                        ✓ Respuesta registrada. Puedes cambiar tu respuesta en cualquier momento. Las respuestas se mostrarán al final del quiz.
-                    </div>
-                `;
-            }
+            // let feedbackHTML = '';
+            // if (selectedIndex === -1) {
+            //     feedbackHTML = `
+            //         <div class="feedback blank">
+            //             💭 Has dejado esta pregunta en blanco. Puedes cambiar tu respuesta antes de finalizar el quiz.
+            //         </div>
+            //     `;
+            // } else {
+            //     feedbackHTML = `
+            //         <div class="feedback selected">
+            //             ✓ Respuesta registrada. Puedes cambiar tu respuesta en cualquier momento. Las respuestas se mostrarán al final del quiz.
+            //         </div>
+            //     `;
+            // }
             
-            feedbackDiv.innerHTML = feedbackHTML;
+            // feedbackDiv.innerHTML = feedbackHTML;
             this.updateNavigation();
             return;
         }
@@ -445,19 +461,25 @@ class QuizApp {
 
         prevBtn.disabled = this.currentQuestionIndex === 0;
         
-        // El botón siguiente se habilita si:
-        // 1. Ya se respondió la pregunta actual, O
-        // 2. Se permiten respuestas en blanco
+        // El botón siguiente siempre está habilitado - si no hay respuesta y se permite en blanco,
+        // se marcará automáticamente como en blanco al avanzar
         const hasAnswered = this.answers[this.currentQuestionIndex] !== undefined && this.answers[this.currentQuestionIndex] !== null;
-        const canSkip = this.scoringConfig.allowBlankAnswers;
-        nextBtn.disabled = !(hasAnswered || canSkip);
+        const allowBlankAnswers = this.scoringConfig.allowBlankAnswers;
+        
+        // El botón está habilitado si:
+        // 1. Ya se respondió la pregunta actual, O
+        // 2. Se permiten respuestas en blanco (se marcará automáticamente al avanzar)
+        nextBtn.disabled = !(hasAnswered || allowBlankAnswers);
 
         // Cambiar texto del botón si es la última pregunta
         if (this.currentQuestionIndex === this.questions.length - 1) {
-            nextBtn.textContent = (hasAnswered || canSkip) ? 'Ver Resultados' : 'Siguiente';
+            nextBtn.textContent = (hasAnswered || allowBlankAnswers) ? 'Ver Resultados' : 'Siguiente';
         } else {
             nextBtn.textContent = 'Siguiente';
         }
+        
+        // Actualizar visibilidad del botón "Ver Resultados" en el header
+        this.updateViewResultsButton();
     }
 
     previousQuestion() {
@@ -465,16 +487,29 @@ class QuizApp {
             this.currentQuestionIndex--;
             this.displayQuestion();
             this.updateProgress();
+            this.updateBlankQuestionsInfo();
             // Guardar estado automáticamente
             this.saveQuizState();
         }
     }
 
     nextQuestion() {
+        // Verificar si la pregunta actual no ha sido respondida
+        const hasAnswered = this.answers[this.currentQuestionIndex] !== undefined && this.answers[this.currentQuestionIndex] !== null;
+        
+        // Si no se ha respondido y se permiten respuestas en blanco, marcar automáticamente como en blanco
+        if (!hasAnswered && this.scoringConfig.allowBlankAnswers) {
+            this.answers[this.currentQuestionIndex] = -1; // Marcar como en blanco
+            this.showAnswerResult(-1, false); // Mostrar feedback de respuesta en blanco
+            this.updateScore();
+            this.updateBlankQuestionsInfo();
+        }
+        
         if (this.currentQuestionIndex < this.questions.length - 1) {
             this.currentQuestionIndex++;
             this.displayQuestion();
             this.updateProgress();
+            this.updateBlankQuestionsInfo();
             // Guardar estado automáticamente
             this.saveQuizState();
         } else {
@@ -532,6 +567,9 @@ class QuizApp {
         container.style.display = 'none';
         navigation.style.display = 'none';
         finalResults.style.display = 'block';
+
+        // Actualizar header para resultados (ocultar botones de navegación)
+        this.updateHeaderForResults();
 
         // Recalcular estadísticas finales
         this.calculateScore();
@@ -1273,6 +1311,8 @@ class QuizApp {
         this.updateProgress();
         this.updateScore();
         this.updateQuestionCounter();
+        this.updateBlankQuestionsInfo();
+        this.updateViewResultsButton();
     }
 
     updateHeaderForCreation() {
@@ -1284,6 +1324,106 @@ class QuizApp {
     updateHeaderForQuiz() {
         document.getElementById('headerTitle').style.display = 'none';
         document.getElementById('quizHeader').style.display = 'flex';
+        
+        // Restaurar visibilidad de los botones cuando se inicia un quiz
+        const exitBtn = document.getElementById('exitQuizBtn');
+        const viewResultsBtn = document.getElementById('viewResultsBtn');
+        
+        if (exitBtn) exitBtn.style.display = 'block';
+        if (viewResultsBtn) viewResultsBtn.style.display = 'none'; // Inicialmente oculto, se mostrará cuando corresponda
+        
+        // Asegurarse de que la información de preguntas en blanco se maneja correctamente
+        this.updateBlankQuestionsInfo();
+    }
+
+    updateHeaderForResults() {
+        // Ocultar los botones de navegación en el header cuando se muestran los resultados
+        const exitBtn = document.getElementById('exitQuizBtn');
+        const viewResultsBtn = document.getElementById('viewResultsBtn');
+        const blankQuestionsInfo = document.getElementById('blankQuestionsInfo');
+        
+        if (exitBtn) exitBtn.style.display = 'none';
+        if (viewResultsBtn) viewResultsBtn.style.display = 'none';
+        if (blankQuestionsInfo) blankQuestionsInfo.style.display = 'none';
+    }
+
+    // === GESTIÓN DE PREGUNTAS EN BLANCO ===
+    
+    getBlankQuestions() {
+        // Obtener índices de preguntas que han sido marcadas explícitamente como "en blanco" (valor -1)
+        // NO incluir preguntas sin responder (undefined/null)
+        const blankIndices = [];
+        this.answers.forEach((answer, index) => {
+            if (answer === -1) {
+                blankIndices.push(index);
+            }
+        });
+        return blankIndices;
+    }
+
+    updateBlankQuestionsInfo() {
+        const blankQuestionsInfo = document.getElementById('blankQuestionsInfo');
+        const blankCount = document.getElementById('blankCount');
+        const reviewBlankBtn = document.getElementById('reviewBlankBtn');
+        
+        if (!blankQuestionsInfo || !blankCount || !reviewBlankBtn) return;
+        
+        const blankQuestions = this.getBlankQuestions();
+        const blankTotal = blankQuestions.length;
+        
+        // Actualizar contador
+        blankCount.textContent = blankTotal === 1 ? '1 en blanco' : `${blankTotal} en blanco`;
+        
+        // Mostrar/ocultar la sección según si hay preguntas en blanco
+        if (blankTotal > 0) {
+            blankQuestionsInfo.style.display = 'flex';
+            reviewBlankBtn.disabled = false;
+        } else {
+            blankQuestionsInfo.style.display = 'none';
+            reviewBlankBtn.disabled = true;
+        }
+        
+        // NO aplicar clases CSS ni indicadores visuales en las preguntas
+    }
+
+    reviewBlankQuestions() {
+        const blankQuestions = this.getBlankQuestions();
+        
+        if (blankQuestions.length === 0) {
+            alert('¡Excelente! No hay preguntas en blanco. Todas las preguntas han sido respondidas.');
+            return;
+        }
+        
+        // Encontrar la primera pregunta en blanco después de la actual, o la primera si no hay ninguna después
+        let nextBlankIndex = blankQuestions.find(index => index > this.currentQuestionIndex);
+        
+        if (nextBlankIndex === undefined) {
+            // Si no hay preguntas en blanco después de la actual, ir a la primera
+            nextBlankIndex = blankQuestions[0];
+        }
+        
+        // Navegar a la pregunta en blanco
+        this.currentQuestionIndex = nextBlankIndex;
+        this.displayQuestion();
+        this.updateProgress();
+        this.highlightBlankQuestion();
+        
+        // Guardar estado automáticamente
+        this.saveQuizState();
+    }
+
+    highlightBlankQuestion() {
+        // Solo mostrar mensaje informativo si la pregunta actual está marcada como en blanco
+        // NO aplicar animaciones ni estilos visuales
+        const feedbackDiv = document.getElementById('feedback');
+        if (feedbackDiv && this.answers[this.currentQuestionIndex] === -1) {
+            feedbackDiv.innerHTML = `
+                <div class="feedback blank-review">
+                    <strong>📝 Pregunta marcada en blanco</strong><br>
+                    Esta pregunta fue marcada como "en blanco". Puedes seleccionar una respuesta si cambias de opinión.
+                </div>
+            `;
+        }
     }
 
     // === FUNCIONES AUXILIARES ===
@@ -1296,6 +1436,21 @@ class QuizApp {
 
     isQuestionAnswered(questionIndex = this.currentQuestionIndex) {
         return this.answers[questionIndex] !== undefined && this.answers[questionIndex] !== null;
+    }
+
+    updateViewResultsButton() {
+        const viewResultsBtn = document.getElementById('viewResultsBtn');
+        if (!viewResultsBtn) return;
+        
+        // Verificar que todas las preguntas hayan sido respondidas o marcadas como en blanco
+        const allQuestionsAnswered = this.answers.length === this.questions.length && 
+                                   this.answers.every(answer => answer !== undefined && answer !== null);
+        
+        if (allQuestionsAnswered) {
+            viewResultsBtn.style.display = 'block';
+        } else {
+            viewResultsBtn.style.display = 'none';
+        }
     }
 
     // === GESTIÓN DE ESTADO COMPLETO DEL QUIZ ===

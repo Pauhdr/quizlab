@@ -42,7 +42,7 @@
       "source(id_conversacion) - Comunicación: aquella que proviene de la conversación con identificador id_conversacion",
       "source(self) - Notas mentales: creencias que provienen del propio agente"
     ],
-    "respuesta": 2
+    "respuesta": 1
   },
   {
     "pregunta": "En JASON, dado el siguiente objetivo de testeo: ?pos(X,Y,Z)",
