@@ -47,13 +47,13 @@
             <div class="input-method" id="jsonMethod">
                 <h3>Pega tu JSON con las preguntas:</h3>
                 <textarea id="jsonInput" placeholder='Pega aquí tu JSON, por ejemplo:
-[
-    {
-        "pregunta": "¿Cuál es la capital de España?",
-        "opciones": ["Madrid", "Barcelona", "Valencia", "Sevilla"],
-        "respuesta": 0
-    }
-]'></textarea>
+                [
+                    {
+                        "pregunta": "¿Cuál es la capital de España?",
+                        "opciones": ["Madrid", "Barcelona", "Valencia", "Sevilla"],
+                        "respuesta": 0
+                    }
+                ]'></textarea>
                 <div class="save-options">
                     <label>
                         <input type="checkbox" id="saveToBank"> Guardar en banco de preguntas
@@ -212,12 +212,14 @@
         <div class="final-results" id="finalResults" style="display: none;">
             <h2>🎉 ¡Quiz Completado!</h2>
             <div class="final-score" id="finalScore"></div>
-            <div class="answers-summary-container" id="answersSummaryContainer" style="display: none;">
-                <div class="answers-summary" id="answersSummary"></div>
-            </div>
+            
             <button id="restartBtn" class="load-btn">Crear Nuevo Quiz</button>
         </div>
+        
     </div>
+    <div class="container" id="answersSummaryContainer" style="display: none;">
+                <div class="answers-summary" id="answersSummary"></div>
+        </div>
 
     <script src="script.js"></script>
 </body>
