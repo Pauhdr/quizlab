@@ -125,6 +125,7 @@ class QuizApp {
         document.getElementById('quizContainer').style.display = 'none';
         document.querySelector('.navigation').style.display = 'none';
         document.getElementById('finalResults').style.display = 'none';
+        document.getElementById('answersSummaryContainer').style.display = 'none';
         
         // Actualizar header para creación
         this.updateHeaderForCreation();
@@ -1302,6 +1303,7 @@ class QuizApp {
         document.getElementById('quizContainer').style.display = 'block';
         document.querySelector('.navigation').style.display = 'flex';
         document.getElementById('finalResults').style.display = 'none';
+        document.getElementById('answersSummaryContainer').style.display = 'none';
         
         // Actualizar header para quiz
         this.updateHeaderForQuiz();
